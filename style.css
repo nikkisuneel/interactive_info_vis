@@ -5,3 +5,23 @@ html, body {
 canvas {
   display: block;
 }
+body {
+  background-color: #fdf6f6;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  color: #003366;
+  margin-top: 40px;
+}
+
+p {
+  max-width: 600px;
+  margin: 20px auto;
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: center;
+}
+
