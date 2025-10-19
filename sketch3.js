@@ -8,7 +8,7 @@ registerSketch('sk3', function (p) {
     p.fill(180, 60, 60);
     p.textSize(32);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text('Sketch 3', p.width / 2, p.height / 2);
+    p.text('HWK #4. B', p.width / 2, p.height / 2);
   };
   p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 });
