@@ -28,7 +28,7 @@ function draw() {
   ellipse(width / 2, shapeHeight, 100, 100);
   textSize(20);
   fill("black");
-  text('Welcomed to my page!', currentWidth / 2, shapeHeight / 2);
+  text('Play with the sun!', currentWidth / 2, shapeHeight / 2);
 
   // draw line for horizon
   stroke('sandybrown');
