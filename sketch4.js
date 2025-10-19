@@ -1,14 +1,12 @@
-// simple instance-mode sketch for tab 4
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-}
-function draw() {
-  background(220);
-  fill(100, 150, 240);
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text('Sketch 4', width / 2, height / 2);
-}
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+// Instance-mode sketch for tab 4
+registerSketch('sk4', function(p) {
+  p.setup = function() { p.createCanvas(p.windowWidth, p.windowHeight); };
+  p.draw = function() {
+    p.background(200, 240, 200);
+    p.fill(30, 120, 40);
+    p.textSize(32);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.text('Sketch 4', p.width / 2, p.height / 2);
+  };
+  p.windowResized = function() { p.resizeCanvas(p.windowWidth, p.windowHeight); };
+});
