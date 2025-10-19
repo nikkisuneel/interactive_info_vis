@@ -33,20 +33,14 @@ function draw() {
   fill("black");
   text('Hi! My name is Katelyn Mei', currentWidth / 2, shapeHeight / 2);
 
-
-
   // draw line for horizon
   stroke('lavender');
   line(0, horizon, width, horizon);
 
-  //grass
-
   fill("lavender");
-
   rect(0, horizon, width, height);
 
 }
-
 
 
 function windowResized() {
