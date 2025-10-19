@@ -83,6 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 Object.values(window._sketchInstances).forEach(inst => { if (inst && inst.canvas) inst.canvas.style.display = 'none'; });
             }
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center' // Scroll until the div is centered in the viewport
+                });
+            } else {
+                console.warn("Target div not found!");
+            }
         });
     });
 
