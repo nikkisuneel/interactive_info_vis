@@ -6,6 +6,7 @@ let designHeight = 400;
 let horizon;
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  noStroke();
 }
 
 function draw() {
@@ -31,9 +32,6 @@ function draw() {
   text('Play with the sun!', currentWidth / 2, shapeHeight / 2);
 
   // draw line for horizon
-  stroke('sandybrown');
-  line(0, horizon, width, horizon);
-
   fill("sandybrown");
   rect(0, horizon, width, height);
 
