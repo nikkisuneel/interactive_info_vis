@@ -18,7 +18,7 @@ const SKETCH_SCRIPT_BY_ID = {
 
 function loadSketchScriptIfNeeded(sketchId) {
     return new Promise((resolve, reject) => {
-        if (window._sketchScriptsLoaded[sketchId]) return resolve();
+        // if (window._sketchScriptsLoaded[sketchId]) return resolve();
         const src = SKETCH_SCRIPT_BY_ID[sketchId];
         if (!src) return reject(new Error('No script configured for ' + sketchId));
         const s = document.createElement('script');
