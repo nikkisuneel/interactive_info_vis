@@ -16,8 +16,6 @@ function draw() {
   currentWidth = mouseX;
 
   //light blue background if the shape is above horizon
-
-  //with if-else statement
   if (shapeHeight < horizon) {
     background("lightblue"); // blue if above horizon
 
@@ -27,7 +25,6 @@ function draw() {
 
   //sun
   fill("white");
-
   rect(width / 4, shapeHeight, width / 2);
   textSize(20);
   fill("black");
