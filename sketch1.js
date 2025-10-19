@@ -6,7 +6,6 @@ let designHeight = 400;
 let horizon;
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  horizon = height / 2;
 }
 
 function draw() {
@@ -14,6 +13,7 @@ function draw() {
   //shape follows y-coordinate of mouse
   shapeHeight = mouseY;
   currentWidth = mouseX;
+  horizon = height / 2;
 
   //light blue background if the shape is above horizon
   if (shapeHeight < horizon) {
@@ -24,17 +24,17 @@ function draw() {
   }
 
   //sun
-  fill("white");
-  rect(width / 4, shapeHeight, width / 2);
+  fill("orange");
+  ellipse(width / 2, shapeHeight, 100, 100);
   textSize(20);
   fill("black");
-  text('Hi! My name is Katelyn Mei', currentWidth / 2, shapeHeight / 2);
+  text('Welcomed to my page!', currentWidth / 2, shapeHeight / 2);
 
   // draw line for horizon
-  stroke('lavender');
+  stroke('sandybrown');
   line(0, horizon, width, horizon);
 
-  fill("lavender");
+  fill("sandybrown");
   rect(0, horizon, width, height);
 
 }
