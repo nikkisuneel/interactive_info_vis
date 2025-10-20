@@ -1,7 +1,7 @@
 // Example 9
 registerSketch('sk13', function (p) {
   p.setup = function () {
-    p.createCanvas(600, 600);
+    p.createCanvas(p.windowWidth, p.windowHeight);
   };
 
   p.draw = function () {
