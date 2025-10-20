@@ -24,6 +24,27 @@ const SKETCH_SCRIPT_BY_ID = {
     sk13: 'sketches/sketch13.js',
 };
 
+// Default sketch selection logic:
+// 1) URL query `?tab=sk3` or `?tab=tab3` will select that tab on load
+// 2) or set `window.DEFAULT_SKETCH = 'sk2'` in the page before this script to choose a default
+// 3) otherwise the first tab is used
+function getDefaultButton(buttons) {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get('tab') || params.get('sketch');
+    if (tabParam) {
+        // match by dataset.sketch or dataset.target
+        const bySketch = Array.from(buttons).find(b => b.dataset.sketch === tabParam);
+        if (bySketch) return bySketch;
+        const byTarget = Array.from(buttons).find(b => b.dataset.target === tabParam);
+        if (byTarget) return byTarget;
+    }
+    if (typeof window.DEFAULT_SKETCH === 'string') {
+        const btn = Array.from(buttons).find(b => b.dataset.sketch === window.DEFAULT_SKETCH);
+        if (btn) return btn;
+    }
+    return buttons[0] || null;
+}
+
 function loadSketchScriptIfNeeded(sketchId) {
     return new Promise((resolve, reject) => {
         // if (window._sketchScriptsLoaded[sketchId]) return resolve();
@@ -97,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // kick off first tab (lazy load its sketch)
-    const first = document.querySelector('.tab-btn');
-    if (first) first.click();
+    // kick off default tab (lazy load its sketch)
+    const first = getDefaultButton(buttons);
+    if (first) setTimeout(() => first.click(), 40);
 });
