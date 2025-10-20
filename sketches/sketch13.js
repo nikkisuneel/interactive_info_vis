@@ -37,7 +37,26 @@ registerSketch('sk13', function (p) {
     p.fill('white');
     p.ellipse(hX, hY, 20, 20);
 
+    // Minute Line
 
+    var mX = begin + (p.minute() / 59 * (end - begin));
+    var mY = p.height / 4 * 2;
+
+    p.noStroke();
+    p.fill(1);
+    p.textSize(50);
+    p.text(p.nf(m, 2), mX - 30, mY - 40);
+
+    p.strokeWeight(20)
+    p.stroke('#413a49ff');
+    p.line(end, mY, begin, mY);
+
+    p.stroke('#bf9fe1ff');
+    p.ellipse(mX, mY, 30, 30);
+
+    p.strokeWeight(10)
+    p.fill('white');
+    p.ellipse(mX, mY, 20, 20);
 
   }
 
