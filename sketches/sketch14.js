@@ -26,9 +26,9 @@ registerSketch('sk14', function (p) {
     const m = p.minute();
     const s = p.second();
 
-    p.placeN(h12, wW/24*2, wH/12*2, 'hour', circsH);  // hours
-    p.placeN(m, wW/56*2, wH/48*2, 'min', circsM);  // minutes
-    p.placeN(s, wW/64, wH/56, 'sec', circsS);  // seconds already elapsed
+    p.placeN(h12, wW/12, wH/6, 'hour', circsH);  // hours
+    p.placeN(m, wW/14, wH/14, 'min', circsM);  // minutes
+    p.placeN(s, wW/32, wH/28, 'sec', circsS);  // seconds already elapsed
 
     // Set last-variables so we only react on change afterward
     lastHour = h24;
@@ -48,14 +48,14 @@ registerSketch('sk14', function (p) {
     // Rebuild hours once per hour
     if (h24 !== lastHour) {
       circsH = [];
-      p.placeN(h12, wW/24*2, wH/12*2, 'hour', circsH)
+      p.placeN(h12, wW/12, wH/6, 'hour', circsH)
       lastHour = h24;
     }
 
     // Rebuild minutes once per minute
     if (m !== lastMinute) {
       circsM = [];
-      p.placeN(m, wW/56*2, wH/48*2, 'min', circsM)
+      p.placeN(m, wW/14, wH/14, 'min', circsM)
       lastMinute = m;
     }
 
@@ -64,7 +64,7 @@ registerSketch('sk14', function (p) {
       if (s === 0) {
         circsS = []; // reset
       } else {
-        p.placeOne(8, 14, 'sec', circsS); // add exactly one
+        p.placeOne(wW/32, wH/28, 'sec', circsS); // add exactly one
       }
       lastSecond = s;
     }
