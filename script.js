@@ -22,6 +22,7 @@ const SKETCH_SCRIPT_BY_ID = {
     sk11: 'sketches/sketch11.js',
     sk12: 'sketches/sketch12.js',
     sk13: 'sketches/sketch13.js',
+    sk14: 'sketches/sketch14.js',
 };
 
 // Default sketch selection logic:
