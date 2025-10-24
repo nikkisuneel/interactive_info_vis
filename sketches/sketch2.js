@@ -1,12 +1,14 @@
 // sketches/sketch2.js
-// CLOCK 1: Runner Orbit Clock (Iteration 1: gradient background by hour)
+// CLOCK 1: Runner Orbit Clock
+// Iteration 2: smooth runner motion with lerp()
 
 let clock1 = function(p) {
 
-  // helper: draw vertical gradient using hour()
+  let smoothX;
+  let smoothY;
+
   function drawGradient(baseBright) {
     for (let y = 0; y < p.height; y++) {
-      // vary brightness down the canvas
       let shade = p.map(y, 0, p.height, baseBright - 30, baseBright + 30);
       shade = p.constrain(shade, 0, 255);
       p.stroke(shade);
@@ -25,66 +27,68 @@ let clock1 = function(p) {
 
     p.angleMode(p.DEGREES);
     p.textFont("sans-serif");
+
+    // start smoothed position at center
+    smoothX = p.width / 2;
+    smoothY = p.height / 2;
+
     console.log("Clock1 setup finished");
   };
 
   p.draw = function() {
-    let h = p.hour(); // 0-23
-
-    // create a "daylight" brightness
-    // 12 (noon) -> brightest, midnight -> darker
-    let distFromNoon = Math.abs(h - 12); // 0 at noon, up to 12 at midnight
+    let h = p.hour();
+    let distFromNoon = Math.abs(h - 12);
     let baseBright = p.map(distFromNoon, 0, 12, 200, 30);
 
-    // draw background gradient
     drawGradient(baseBright);
 
-    // center/track geometry
     const cx = p.width / 2;
     const cy = p.height / 2;
     const r = 100;
 
-    // track ring
+    // draw track ring
     p.noFill();
     p.stroke(180);
     p.strokeWeight(4);
     p.circle(cx, cy, r * 2);
 
-    // time → angle around track
+    // figure out where the "true" runner should be
     const mins = p.minute();
     const secs = p.second();
     const minuteProgress = mins + secs / 60.0;
     const angle = p.map(minuteProgress, 0, 60, 0, 360);
 
-    // runner position
-    const runnerX = cx + r * p.cos(angle - 90);
-    const runnerY = cy + r * p.sin(angle - 90);
+    const targetX = cx + r * p.cos(angle - 90);
+    const targetY = cy + r * p.sin(angle - 90);
 
-    // runner color (fatigue goes up as minutes increase)
+    // ease smoothX/smoothY toward targetX/targetY
+    smoothX = p.lerp(smoothX, targetX, 0.2); // 0.2 smoothing factor
+    smoothY = p.lerp(smoothY, targetY, 0.2);
+
+    // draw runner at smoothed position
     const fatigue = p.map(mins, 0, 59, 0, 255);
     p.noStroke();
     p.fill(255, 100, fatigue);
-    p.circle(runnerX, runnerY, 16);
+    p.circle(smoothX, smoothY, 16);
 
-    // draw hour + minutes in the middle
+    // draw central time
     p.noStroke();
     p.fill(255);
     p.textAlign(p.CENTER, p.CENTER);
 
     let hr = h % 12;
     if (hr === 0) hr = 12;
+    const minsLabel = mins < 10 ? "0" + mins : mins;
 
     p.textSize(32);
     p.text(hr, cx, cy - 5);
 
     p.textSize(14);
-    const minsLabel = mins < 10 ? "0" + mins : mins;
     p.text(":" + minsLabel, cx, cy + 18);
 
-    // label
     p.textSize(10);
     p.fill(230);
-    p.text("Runner Orbit Clock (gradient bg)", cx, p.height - 12);
+    p.text("Runner Orbit Clock (smooth motion)", cx, p.height - 12);
   };
 };
 
