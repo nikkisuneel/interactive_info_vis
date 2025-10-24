@@ -1,16 +1,25 @@
 // sketches/sketch2.js
-// CLOCK 1: Runner Orbit Clock (minute = angle, hour in center)
+// CLOCK 1: Runner Orbit Clock (Iteration 1: gradient background by hour)
 
 let clock1 = function(p) {
+
+  // helper: draw vertical gradient using hour()
+  function drawGradient(baseBright) {
+    for (let y = 0; y < p.height; y++) {
+      // vary brightness down the canvas
+      let shade = p.map(y, 0, p.height, baseBright - 30, baseBright + 30);
+      shade = p.constrain(shade, 0, 255);
+      p.stroke(shade);
+      p.line(0, y, p.width, y);
+    }
+  }
 
   p.setup = function() {
     console.log("Clock1 setup starting");
 
-    // Grab the container div
     const container = p.select("#clock1-container");
     console.log("clock1-container selected:", container);
 
-    // Create canvas and attach to that div
     const c = p.createCanvas(300, 300);
     c.parent(container);
 
@@ -20,10 +29,15 @@ let clock1 = function(p) {
   };
 
   p.draw = function() {
-    // background shifts slightly with hour
     let h = p.hour(); // 0-23
-    let bg = p.map(h, 0, 23, 20, 60);
-    p.background(bg);
+
+    // create a "daylight" brightness
+    // 12 (noon) -> brightest, midnight -> darker
+    let distFromNoon = Math.abs(h - 12); // 0 at noon, up to 12 at midnight
+    let baseBright = p.map(distFromNoon, 0, 12, 200, 30);
+
+    // draw background gradient
+    drawGradient(baseBright);
 
     // center/track geometry
     const cx = p.width / 2;
@@ -42,11 +56,11 @@ let clock1 = function(p) {
     const minuteProgress = mins + secs / 60.0;
     const angle = p.map(minuteProgress, 0, 60, 0, 360);
 
-    // runner position on track
+    // runner position
     const runnerX = cx + r * p.cos(angle - 90);
     const runnerY = cy + r * p.sin(angle - 90);
 
-    // runner color = more "fatigued" (hotter) late in the hour
+    // runner color (fatigue goes up as minutes increase)
     const fatigue = p.map(mins, 0, 59, 0, 255);
     p.noStroke();
     p.fill(255, 100, fatigue);
@@ -57,7 +71,6 @@ let clock1 = function(p) {
     p.fill(255);
     p.textAlign(p.CENTER, p.CENTER);
 
-    // convert 24h → 12h
     let hr = h % 12;
     if (hr === 0) hr = 12;
 
@@ -70,11 +83,9 @@ let clock1 = function(p) {
 
     // label
     p.textSize(10);
-    p.fill(200);
-    p.text("Runner Orbit Clock", cx, p.height - 12);
+    p.fill(230);
+    p.text("Runner Orbit Clock (gradient bg)", cx, p.height - 12);
   };
-
 };
 
-// actually create the instance
 new p5(clock1);
