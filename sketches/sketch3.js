@@ -1,9 +1,10 @@
-// sketches/sketch3.js
-// CLOCK 2: Pace Bar Clock (Iteration 1: breathing pulse)
-// Feedback: "It looks static. Can it feel like a body working?"
-// Change: bar now gently pulses in size and brightness to mimic heart rate.
+// CLOCK 2: Pace Bar Clock
+// Iteration 2: interactive lane change on click
+// Feedback: "When I run intervals I tap my watch to mark a rep. Can I do that here?"
 
 let clock2 = function(p) {
+
+  let laneToggle = 0; // 0 or 1 to shift bar vertically
 
   p.setup = function() {
     const container = p.select('#clock2-container');
@@ -12,11 +13,10 @@ let clock2 = function(p) {
 
     p.textAlign(p.CENTER, p.CENTER);
     p.textFont("sans-serif");
-    p.colorMode(p.HSB); // we'll use hue/sat/bright for easier pulsing
+    p.colorMode(p.HSB);
   };
 
   p.draw = function() {
-    // background stays deep blue/black to keep focus on the bar
     p.colorMode(p.RGB);
     p.background(10, 30, 60);
 
@@ -24,46 +24,55 @@ let clock2 = function(p) {
     let mn = p.minute();
     let sc = p.second();
 
-    // progress across current minute
+    // How much of this minute is done
     let progress = (sc / 60.0);
     let barWidth = progress * (p.width - 40);
 
-    // heartbeat-like pulse using millis()
-    let t = p.millis() / 300.0; // adjust 300 for faster/slower pulse
-    let pulse = (p.sin(t) + 1) / 2; // 0→1
+    // Breathing pulse (effort)
+    let t = p.millis() / 300.0;
+    let pulse = (p.sin(t) + 1) / 2;
 
-    // map that pulse into bar height and brightness
-    let barHeight = p.map(pulse, 0, 1, 14, 26); // throb between 14px and 26px tall
-    let barY = p.height/2 - barHeight/2;
+    let barHeight = p.map(pulse, 0, 1, 14, 26);
 
-    // brighter when "pulse" peaks
+    // base vertical center
+    let baseY = p.height/2 - barHeight/2;
+
+    // if laneToggle == 1, nudge the bar upward a bit 
+    // feels like: "mark that rep mentally"
+    let laneShift = laneToggle === 1 ? -20 : 0;
+    let barY = baseY + laneShift;
+
     p.colorMode(p.HSB);
-    let baseHue = 190; // teal-ish
-    let bright = p.map(pulse, 0, 1, 60, 100); // brightness wiggle
+    let baseHue = 190;
+    let bright = p.map(pulse, 0, 1, 60, 100);
     p.noStroke();
     p.fill(baseHue, 80, bright);
     p.rect(20, barY, barWidth, barHeight, 5);
 
-    // switch back to RGB for text for predictable white
     p.colorMode(p.RGB);
 
-    // digital time above bar
+    // readable clock time
     p.fill(255);
     p.textSize(16);
     p.text(
       p.nf(hr, 2) + ":" + p.nf(mn, 2) + ":" + p.nf(sc, 2),
       p.width/2,
-      p.height/2 - 35
+      p.height/2 - 40
     );
 
-    // annotation below bar
+    // instructions and annotation
     p.textSize(10);
     p.fill(200);
     p.text(
-      "Filling bar = progress this minute\nPulse = effort / heartbeat",
+      "Filling = this minute\nPulse = effort\nClick = new lap / lane change",
       p.width/2,
-      p.height/2 + 35
+      p.height/2 + 40
     );
+  };
+
+  // clicking to toggle lane
+  p.mousePressed = function() {
+    laneToggle = (laneToggle === 0) ? 1 : 0;
   };
 };
 
