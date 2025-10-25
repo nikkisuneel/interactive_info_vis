@@ -1,12 +1,10 @@
-// CLOCK 3: Route Progress Clock (Base Version)
-// Idea: A run loop around a neighborhood. The bright segment shows
-// how far through the current hour you are.
-//
-// This clock encodes time as physical distance covered.
+// CLOCK 3: Route Progress Clock
+// Iteration 1: Add glowing checkpoints (milestones)
+// Peer feedback: "I want to know when I've hit like halfway."
 
 let clock3 = function(p) {
 
-  // Hand drawn route
+  // Route polyline around ~300x300
   let routePts = [
     {x: 50,  y: 250},
     {x: 80,  y: 200},
@@ -19,13 +17,15 @@ let clock3 = function(p) {
     {x: 120, y: 80},
     {x: 90,  y: 130},
     {x: 60,  y: 190},
-    {x: 50,  y: 250} // back to start (loop closed)
+    {x: 50,  y: 250}
   ];
 
   let segLengths = [];
   let totalLen = 0;
 
-  // Compute length of each segment and total loop length
+  // checkpoints at 25%, 50%, 75% of the loop
+  let checkpointsFrac = [0.25, 0.5, 0.75];
+
   function computeLengths() {
     segLengths = [];
     totalLen = 0;
@@ -38,7 +38,33 @@ let clock3 = function(p) {
     }
   }
 
-  // Draw the entire loop in gray
+  // Given a distance along the path, return an {x,y} position on the route
+  function pointAtDistance(distAlong) {
+    let remaining = distAlong;
+    for (let i = 0; i < routePts.length - 1; i++) {
+      let segLen = segLengths[i];
+      let x1 = routePts[i].x;
+      let y1 = routePts[i].y;
+      let x2 = routePts[i+1].x;
+      let y2 = routePts[i+1].y;
+
+      if (remaining > segLen) {
+        remaining -= segLen;
+      } else {
+        let t = remaining / segLen; // 0..1
+        return {
+          x: p.lerp(x1, x2, t),
+          y: p.lerp(y1, y2, t)
+        };
+      }
+    }
+    // fallback to last point
+    return {
+      x: routePts[routePts.length - 1].x,
+      y: routePts[routePts.length - 1].y
+    };
+  }
+
   function drawFullRoute() {
     p.stroke(80);
     p.strokeWeight(4);
@@ -50,15 +76,12 @@ let clock3 = function(p) {
     p.endShape();
   }
 
-  // Drawing only the "completed" distance in a bright color.
-  // distAlong = how far we've "run" so far this hour, in pixels along the route.
   function drawProgressRoute(distAlong) {
     p.stroke(0, 255, 180); 
     p.strokeWeight(5);
     p.noFill();
 
     let remaining = distAlong;
-
     p.beginShape();
     p.vertex(routePts[0].x, routePts[0].y);
 
@@ -70,12 +93,10 @@ let clock3 = function(p) {
       let y2 = routePts[i+1].y;
 
       if (remaining >= segLen) {
-        // We still have enough distance budget to draw entire segment
         p.vertex(x2, y2);
         remaining -= segLen;
       } else {
-        // We run out mid-segment. draw a partial segment
-        let t = remaining / segLen; // 0..1 along this segment
+        let t = remaining / segLen;
         let xt = p.lerp(x1, x2, t);
         let yt = p.lerp(y1, y2, t);
         p.vertex(xt, yt);
@@ -86,6 +107,29 @@ let clock3 = function(p) {
     p.endShape();
   }
 
+  // drawn milestone dots along the loop.
+  // If we've progressed past that point in the hour, it lights up
+  function drawCheckpoints(currentDist) {
+    for (let frac of checkpointsFrac) {
+      let checkpointDist = frac * totalLen;
+      let pt = pointAtDistance(checkpointDist);
+
+      let reached = currentDist >= checkpointDist;
+
+      if (reached) {
+        // bright = hit this milestone already
+        p.noStroke();
+        p.fill(0, 255, 180);
+        p.circle(pt.x, pt.y, 12);
+      } else {
+        // dim = not yet reached
+        p.noStroke();
+        p.fill(120);
+        p.circle(pt.x, pt.y, 8);
+      }
+    }
+  }
+
   p.setup = function() {
     const container = p.select('#clock3-container');
     const c = p.createCanvas(300, 300);
@@ -94,31 +138,31 @@ let clock3 = function(p) {
     p.textFont("sans-serif");
     p.textAlign(p.CENTER, p.CENTER);
 
-    computeLengths(); // prep segment lengths
+    computeLengths();
   };
 
   p.draw = function() {
-    p.background(15); // dark background
+    p.background(15); //dark background
 
-    // TIME MAPPING
-    // How far through the current hour are we
-    // 0.0 at :00, about 1.0 at :59
     let hr = p.hour();
     let mn = p.minute();
     let sc = p.second();
 
-    let minuteProgress = mn + sc / 60.0; // 0..59.999
-    let hourFrac = minuteProgress / 60.0; // 0..~1
-    let distAlong = hourFrac * totalLen;  // how far to draw
+    // map current time to distance along route
+    let minuteProgress = mn + sc / 60.0;   // 0..59.999
+    let hourFrac = minuteProgress / 60.0;  // 0..~1
+    let distAlong = hourFrac * totalLen;   // pixels along loop
 
-    // draw the full loop in gray
+    //draw full loop
     drawFullRoute();
 
-    // draw the "distance covered this hour"
+    // draw traveled portion
     drawProgressRoute(distAlong);
 
-    // text labels
-    // digital time at top for readability
+    // draw checkpoint markers
+    drawCheckpoints(distAlong);
+
+    // digital time at top
     p.fill(255);
     p.textSize(14);
     p.text(
@@ -127,11 +171,11 @@ let clock3 = function(p) {
       20
     );
 
-    // context at bottom
+    // caption
     p.textSize(10);
     p.fill(180);
     p.text(
-      "Route Progress Clock\nBright path = how far into this hour you are",
+      "Route Progress Clock\nGlow dots = milestones passed this hour",
       p.width/2,
       p.height - 30
     );
