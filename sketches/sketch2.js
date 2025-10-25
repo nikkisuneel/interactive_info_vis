@@ -1,13 +1,12 @@
 // sketches/sketch2.js
 // CLOCK 1: Runner Orbit Clock
-// Iteration 3: add per-minute chime (audio cue when a new minute starts)
+// Iteration 4: color-pulsing track ring based on seconds()
 
 let clock1 = function(p) {
 
   let smoothX;
   let smoothY;
 
-  // sound state
   let beepOsc;
   let lastMinute = -1;
 
@@ -20,12 +19,10 @@ let clock1 = function(p) {
     }
   }
 
-  // play a short beep
   function playBeep() {
-    // set frequency + quick amp envelope
     beepOsc.freq(880);
-    beepOsc.amp(0.2, 0.01);   // ramp up quick
-    beepOsc.amp(0.0, 0.2);    // fade out over 0.2s
+    beepOsc.amp(0.2, 0.01);
+    beepOsc.amp(0.0, 0.2);
   }
 
   p.setup = function() {
@@ -43,10 +40,9 @@ let clock1 = function(p) {
     smoothX = p.width / 2;
     smoothY = p.height / 2;
 
-    // setup oscillator
     beepOsc = new p5.Oscillator('sine');
     beepOsc.start();
-    beepOsc.amp(0); // start silent so browser doesn't complain
+    beepOsc.amp(0);
 
     console.log("Clock1 setup finished");
   };
@@ -56,7 +52,7 @@ let clock1 = function(p) {
     let mins = p.minute();
     let secs = p.second();
 
-    // detect minute rollover
+    // minute rollover → beep
     if (mins !== lastMinute) {
       if (lastMinute !== -1) {
         playBeep();
@@ -64,7 +60,7 @@ let clock1 = function(p) {
       lastMinute = mins;
     }
 
-    // background gradient based on hour
+    // gradient background from hour
     let distFromNoon = Math.abs(h - 12);
     let baseBright = p.map(distFromNoon, 0, 12, 200, 30);
     drawGradient(baseBright);
@@ -73,29 +69,32 @@ let clock1 = function(p) {
     const cy = p.height / 2;
     const r = 100;
 
-    // draw track ring
+    // TRACK RING with hue mapped to seconds
+    p.colorMode(p.HSB);
+    let ringHue = p.map(secs, 0, 59, 0, 360);
     p.noFill();
-    p.stroke(180);
+    p.stroke(ringHue, 80, 90);
     p.strokeWeight(4);
     p.circle(cx, cy, r * 2);
+    p.colorMode(p.RGB); // switch back to RGB for rest
 
-    // target runner position (true)
+    // runner target on the ring
     const minuteProgress = mins + secs / 60.0;
     const angle = p.map(minuteProgress, 0, 60, 0, 360);
     const targetX = cx + r * p.cos(angle - 90);
     const targetY = cy + r * p.sin(angle - 90);
 
-    // smoothly approach target
+    // smooth pursue
     smoothX = p.lerp(smoothX, targetX, 0.2);
     smoothY = p.lerp(smoothY, targetY, 0.2);
 
-    // runner color (fatigue)
+    // runner color = fatigue (minutes deeper into the hour -> hotter color)
     const fatigue = p.map(mins, 0, 59, 0, 255);
     p.noStroke();
     p.fill(255, 100, fatigue);
     p.circle(smoothX, smoothY, 16);
 
-    // center text
+    // text overlay in center
     p.noStroke();
     p.fill(255);
     p.textAlign(p.CENTER, p.CENTER);
@@ -113,7 +112,7 @@ let clock1 = function(p) {
     // label
     p.textSize(10);
     p.fill(230);
-    p.text("Runner Orbit Clock (minute chime)", cx, p.height - 12);
+    p.text("Runner Orbit Clock (color pulse + chime + smooth)", cx, p.height - 12);
   };
 };
 
