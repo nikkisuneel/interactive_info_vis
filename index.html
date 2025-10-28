@@ -1,57 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/addons/p5.sound.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <meta charset="utf-8" />
-    <title>Nikki Suneel | INFO 474 Portfolio</title>
-  </head>
-  <style>
-    :root {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      margin: 12px 0;
-    }
-
-    .tab-btn {
-      padding: 8px 12px;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      background: #f5f5f5;
-    }
-
-    .tab-btn.active {
-      background: #ddd;
-      font-weight: 600;
-    }
-
-    .tab-content {
-      display: none;
-      border: 1px solid #ccc;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    .sketch-container canvas {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-  </style>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/addons/p5.sound.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
+  <title>Nikki Suneel | INFO 474 Portfolio</title>
 </head>
 
 <body>
   <main>
     <nav class="tabs" role="tablist" aria-label="Main tabs">
-      <button type="button" class="tab-btn active" data-target="tab1" data-sketch="sk1" role="tab" aria-selected="true">Tab 1</button>
+      <button type="button" class="tab-btn active" data-target="tab1" data-sketch="sk1" role="tab"
+        aria-selected="true">Tab 1</button>
       <button type="button" class="tab-btn" data-target="tab2" data-sketch="sk2" role="tab">Tab 2</button>
       <button type="button" class="tab-btn" data-target="tab3" data-sketch="sk3" role="tab">Tab 3</button>
       <button type="button" class="tab-btn" data-target="tab4" data-sketch="sk4" role="tab">Tab 4</button>
