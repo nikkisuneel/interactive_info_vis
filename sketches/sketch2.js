@@ -2,7 +2,8 @@
 // CLOCK 1: Runner Orbit Clock
 // Iteration 4: color-pulsing track ring based on seconds()
 
-let clock1 = function(p) {
+// Instance-mode sketch for tab 2
+registerSketch('sk2', function(p) {
 
   let smoothX;
   let smoothY;
@@ -28,11 +29,7 @@ let clock1 = function(p) {
   p.setup = function() {
     console.log("Clock1 setup starting");
 
-    const container = p.select("#clock1-container");
-    console.log("clock1-container selected:", container);
-
-    const c = p.createCanvas(300, 300);
-    c.parent(container);
+    p.createCanvas(300, 300);
 
     p.angleMode(p.DEGREES);
     p.textFont("sans-serif");
@@ -114,6 +111,10 @@ let clock1 = function(p) {
     p.fill(230);
     p.text("Runner Orbit Clock (color pulse + chime + smooth)", cx, p.height - 12);
   };
-};
+  // p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 
-new p5(clock1);
+
+});
+
+// new p5(clock1);
+

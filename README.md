@@ -39,8 +39,8 @@ This repo provides a tabbed gallery that lazy-loads p5 sketches (instance-mode) 
 Files & layout
 - `index.html` — main page with tabs and per-tab containers.
 - `script.js` — tab/sketch loader (lazy-loads scripts, attaches canvases, resizes on tab switches).
-- `sketch1.js`..`sketch11.js` — sketches in p5 instance mode, registered with the loader.
-- `sketch2.js`, `sketch3.js`, and `sketch4.js` are for each student to submit their homework.
+- `sketches/sketch1.js`..`sketches/sketch11.js` — sketches in p5 instance mode, registered with the loader.
+- `sketches/sketch2.js`, `sketches/sketch3.js`, and `sketches/sketch4.js` are for each student to submit their homework.
 - `style.css` — visual styles for the tabs and containers.
 - `images/` — place evolution/iteration images here (see `images/README.md`).
 

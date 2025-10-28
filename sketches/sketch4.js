@@ -2,8 +2,7 @@
 // Iteration 1: Add glowing checkpoints (milestones)
 // Peer feedback: "I want to know when I've hit like halfway."
 
-let clock3 = function(p) {
-
+registerSketch('sk4', function (p) {
   // Route polyline around ~300x300
   let routePts = [
     {x: 50,  y: 250},
@@ -131,9 +130,7 @@ let clock3 = function(p) {
   }
 
   p.setup = function() {
-    const container = p.select('#clock3-container');
-    const c = p.createCanvas(300, 300);
-    c.parent(container);
+    p.createCanvas(300, 300);
 
     p.textFont("sans-serif");
     p.textAlign(p.CENTER, p.CENTER);
@@ -180,7 +177,6 @@ let clock3 = function(p) {
       p.height - 30
     );
   };
+  p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
 
-};
-
-new p5(clock3);
+});

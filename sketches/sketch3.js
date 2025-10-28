@@ -1,15 +1,12 @@
 // CLOCK 2: Pace Bar Clock
 // Interactive: click to mark a lap (increments counter + nudges bar/lane)
-
-let clock2 = function(p) {
+registerSketch('sk3', function (p) {
 
   let laneToggle = 0;  // 0 or 1, shifts bar up when you "mark" a lap
   let lapCount = 0;    // how many times you've clicked (like intervals)
 
   p.setup = function() {
-    const container = p.select('#clock2-container');
-    const c = p.createCanvas(300, 200);
-    c.parent(container);
+    p.createCanvas(300, 200);
 
     p.textAlign(p.CENTER, p.CENTER);
     p.textFont("sans-serif");
@@ -95,6 +92,7 @@ let clock2 = function(p) {
     // increment lap counter
     lapCount += 1;
   };
-};
 
-new p5(clock2);
+  p.windowResized = function () { p.resizeCanvas(p.windowWidth, p.windowHeight); };
+
+});
