@@ -8,54 +8,76 @@
     <meta charset="utf-8" />
     <title>Nikki Suneel | INFO 474 Portfolio</title>
   </head>
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
 
-  <body>
-    <main>
-      <h1>Nikki Suneel</h1>
-      <p>
-        Hi, I'm Nikki, a student in Info 474. This is my interactive portfolio
-        where I'll share class projects and visualizations.
-      </p>
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+    }
 
-      <!-- CLOCK 1 -->
-      <section>
-        <h2>Clock 1 Prototype</h2>
-        <div id="clock1-container"></div>
-        <p class="clock-description">
-          The runner goes around a circular track once every hour. The angle shows how far
-          the runner is into the current hour (minute + seconds). The runner dot turns from
-          cool to hot pink as they get tired throughout the hour. Background gets lighter
-          in later hours of the day. This is meant to feel like a training loop.
-        </p>
-      </section>
+    .tab-btn {
+      padding: 8px 12px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background: #f5f5f5;
+    }
 
-      <!-- CLOCK 2 -->
-      <section>
-        <h2>Clock 2 Prototype</h2>
-        <div id="clock2-container"></div>
-        <p class="clock-notes">
-          This clock treats each minute like a sprint rep. The teal bar fills left to right
-          over the 60 seconds. Above it is digital time. This feels more
-          like interval pacing. The runner can instantly see how deep they are into the
-          current rep.
-        </p>
-      </section>
+    .tab-btn.active {
+      background: #ddd;
+      font-weight: 600;
+    }
 
-      <!-- CLOCK 3 -->
-      <section>
-        <h2>Clock 3 Prototype</h2>
-        <div id="clock3-container"></div>
-        <p class="clock-notes">
-          A full loop route (like running around Yellow Lake in Issaquah). The marker moves around
-          the loop as the minute and second pass. The checkpoints act like mile markers
-          and light up when you pass them. The digital time sits at the bottom like a
-          race clock.
-        </p>
-      </section>
-    </main>
+    .tab-content {
+      display: none;
+      border: 1px solid #ccc;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .sketch-container canvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <nav class="tabs" role="tablist" aria-label="Main tabs">
+      <button type="button" class="tab-btn active" data-target="tab1" data-sketch="sk1" role="tab"
+        aria-selected="true">Tab 1</button>
+      <button type="button" class="tab-btn" data-target="tab2" data-sketch="sk2" role="tab">Tab 2</button>
+      <button type="button" class="tab-btn" data-target="tab3" data-sketch="sk3" role="tab">Tab 3</button>
+      <button type="button" class="tab-btn" data-target="tab4" data-sketch="sk4" role="tab">Tab 4</button>
+      <button type="button" class="tab-btn" data-target="tab5" data-sketch="sk5" role="tab">Tab 5</button>
+    </nav>
+
 
     <script src="sketches/sketch2.js"></script>
     <script src="sketches/sketch3.js"></script>
     <script src="sketches/sketch4.js"></script>
-  </body>
+
+    <section id="tab3" class="tab-content" role="tabpanel">
+      <div id="sketch-container-sk3" class="sketch-container"></div>
+    </section>
+
+    <section id="tab4" class="tab-content" role="tabpanel">
+      <div id="sketch-container-sk4" class="sketch-container"></div>
+    </section>
+
+    <section id="tab5" class="tab-content" role="tabpanel">
+      <div id="sketch-container-sk5" class="sketch-container"></div>
+    </section>
+  </main>
+
+</body>
+
 </html>
+
