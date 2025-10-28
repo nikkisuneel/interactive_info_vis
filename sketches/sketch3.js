@@ -6,6 +6,8 @@ let clock2 = function(p) {
 
   let laneToggle = 0; // 0 or 1 to shift bar vertically
 
+  let lapCount = 0;
+
   p.setup = function() {
     const container = p.select('#clock2-container');
     const c = p.createCanvas(300, 200);
@@ -60,6 +62,16 @@ let clock2 = function(p) {
       p.height/2 - 40
     );
 
+    // lap counter display
+    p.textSize(12);
+    p.fill(255, 220, 120);
+    p.text(
+      "Laps: " + lapCount,
+      p.width/2,
+      p.height/2 - 20
+);
+
+
     // instructions and annotation
     p.textSize(10);
     p.fill(200);
@@ -72,7 +84,10 @@ let clock2 = function(p) {
 
   // clicking to toggle lane
   p.mousePressed = function() {
+    // toggle lane
     laneToggle = (laneToggle === 0) ? 1 : 0;
+    // record a lap
+    lapCount += 1;
   };
 };
 
