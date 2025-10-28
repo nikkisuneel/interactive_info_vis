@@ -20,6 +20,7 @@ const SKETCH_SCRIPT_BY_ID = {
     sk9: 'sketch9.js',
     sk10: 'sketch10.js',
     sk11: 'sketch11.js',
+    sk12: 'sketch12.js',
 };
 
 function loadSketchScriptIfNeeded(sketchId) {
