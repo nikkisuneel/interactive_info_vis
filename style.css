@@ -75,7 +75,7 @@ p {
   display: block;
 }
 
-/* Center the live clock canvas on each tab */
+
 .sketch-container {
   display: flex;
   justify-content: center;
@@ -83,24 +83,24 @@ p {
   padding: 40px 0;
 }
 
-/* Give the canvas a little polish */
+
 .sketch-container canvas {
   border-radius: 12px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-  background: #000; /* optional: helps the clocks pop */
+  background: #000; 
 }
 
-/* Control image size and layout for sketch evolution sections */
+
 .sketch-evolution img {
-  width: 400px;           /* make all images 400px wide */
-  height: auto;           /* keep aspect ratio */
-  display: block;         /* ensures margins apply cleanly */
-  margin: 20px auto;      /* centers images horizontally */
-  border-radius: 10px;    /* optional: smooth rounded edges */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* subtle drop shadow */
+  width: 400px;          
+  height: auto;         
+  display: block;         
+  margin: 20px auto;   
+  border-radius: 10px;    
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
 }
 
-/* Optional: make captions look tidy and aligned under each image */
+
 .sketch-evolution figcaption {
   text-align: center;
   font-size: 14px;
