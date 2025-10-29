@@ -74,3 +74,18 @@ p {
   height: auto;
   display: block;
 }
+
+/* Center the live clock canvas on each tab */
+.sketch-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+}
+
+/* Give the canvas a little polish */
+.sketch-container canvas {
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  background: #000; /* optional: helps the clocks pop */
+}

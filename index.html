@@ -55,11 +55,12 @@
       </div>
     </section>
 
-    <!-- Homework 4: Sketch 1 -->
+    <!-- Homework 4: Sketch 1 / CLOCK 1 -->
     <section id="tab2" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk2" class="sketch-container"></div>
+
       <div id="sketch-drawing-sk2" class="sketch-evolution">
-        <!-- Project narrative template: replace the text below with your own narrative -->
+        <!-- Project narrative for Clock 1 -->
         <div class="sketch-narrative" aria-labelledby="sk2-narrative-title">
 
           <h1>Nikki Suneel</h1>
@@ -67,79 +68,202 @@
             Hi, I'm Nikki, a student in Info 474. This is my interactive portfolio
             where I'll share class projects and visualizations.
           </p>
+
           <!-- CLOCK 1 -->
-          <h2>Clock 1 Prototype</h2>
+          <h2>Clock 1 Prototype — Runner Orbit Clock</h2>
           <div id="clock1-container"></div>
+
           <p class="clock-description">
             The runner goes around a circular track once every hour. The angle shows how far
-            the runner is into the current hour (minute + seconds). The runner dot turns from
-            cool to hot pink as they get tired throughout the hour. Background gets lighter
-            in later hours of the day. This is meant to feel like a training loop.
+            the runner is into the current hour (minute + seconds). The runner dot shifts from
+            cool to hot pink/purple as the minute gets later, like they're getting more fatigued.
+            The background brightness changes with the real hour of day (darker at night,
+            brighter mid-day), so this starts to feel like a “training loop” instead of just a generic clock.
+            The ring also pulses color with each second, and the clock plays a tiny “lap beep”
+            when a new minute starts.
           </p>
 
+          <h3 id="sk2-narrative-title">Sketch narrative</h3>
 
-          <h3 id="sk2-narrative-title">Sketch narrative (replace this and add to the other two sketches!)</h3>
-          <p class="small-note">Replace this entire block with your own text when submitting.</p>
-          <p>
-            Context: Briefly describe the situation or user need this sketch addresses. For example,
-            "This sketch visualizes sunrise/sunset behavior for a simple teaching demo on coordinate
-            systems and interaction." Keep it short — 1–2 sentences.
           <ul>
-            <li><strong>Context:</strong> Who is this for? In what context will it be used? (e.g., mountain, pomodoro,
-              running, cooking, breathing?)</li>
-            <li><strong>Design decisions:</strong> Explain 2–3 key choices you made (layout, color, interaction) and why
-              you made them. Use plain language and reference any constraints (time, accessibility,
-              or target device).</li>
-            <li><strong>Future work:</strong> 1–2 ideas for improvements or extensions.</li>
+            <li><strong>Context:</strong> This clock is for runners who think in terms of pacing and distance,
+              not just wall time. It’s meant to live on a smartwatch face or training app and answer:
+              “How deep am I into this hour?” not just “What time is it?”</li>
+
+            <li><strong>Design decisions:</strong>
+              <br>• Position on the circle encodes minute+second, so time literally becomes distance around a loop.
+              <br>• The dot color heats up across the hour to communicate effort / fatigue.
+              <br>• Background brightness is mapped to hour-of-day to hint at time of day without needing extra UI.
+              <br>• The dot movement is smoothed with easing instead of snapping each second, so it feels like steady running.
+              <br>• I added a tiny chime per minute based on feedback that runners like an audible “lap beep.”</li>
+
+            <li><strong>Future work:</strong> Add a pause interaction (water break / rest interval),
+              or layer in total miles for the session so each loop can represent not just time, but distance accumulated.</li>
           </ul>
-          </p>
         </div>
 
         <h3>Sketch evolution</h3>
-        <p class="small-note">Replace <b>these images</b> with your own sketch evolution images.</p>
+      
         <figure>
-          <!-- <img src="images/sk2-evolution-1.png" alt="Sketch #A - step 1" /> -->
-          <figcaption>Step 1 — initial layout and annotated design decisions</figcaption>
+          <img src="images/clock1_step1.jpg" alt="Clock 1 - step 1" />
+          <figcaption>
+            <strong>Step 1 — initial layout and annotated design decisions:</strong>
+            rough circle, single runner dot, note that “dot angle = minute+second.”
+            Background note: darker at night, brighter mid-day.
+          </figcaption>
         </figure>
+
         <figure>
-          <!-- <img src="images/sk2-evolution-2.png" alt="Sketch #A - step 2" /> -->
-          <figcaption>Step 2 — second layout after peer feedback</figcaption>
+          <img src="images/clock1_step2.jpg" alt="Clock 1 - step 2" />
+          <figcaption>
+            <strong>Step 2 — second layout after peer feedback:</strong>
+            added pulsing track ring (color shifts with seconds) and a minute chime icon
+            to suggest smartwatch-style lap beeps.
+          </figcaption>
         </figure>
+
         <figure>
-          <!-- <img src="images/sk2-evolution-3.png" alt="Sketch #A - step 3" /> -->
-          <figcaption>Step 3 — refined visuals and annotations</figcaption>
+          <img src="/Users/nikkisuneel/Documents/INFO_474/interactive_info_vis/images/clock1_step3.jpg" alt="Clock 1 - step 3" />
+          <figcaption>
+            <strong>Step 3 — refined visuals and annotations:</strong>
+            smoothed runner motion (lerp), hotter fatigue color near :59,
+            and cleaner central hour/minute label for legibility.
+          </figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- Homework 4: Sketch 1 -->
+
+    <!-- Homework 4: Sketch 2 / CLOCK 2 -->
     <section id="tab3" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk3" class="sketch-container"></div>
+
       <!-- CLOCK 2 -->
       <section>
-        <h2>Clock 2 Prototype</h2>
+        <h2>Clock 2 Prototype — Pace Bar Clock (Interactive)</h2>
         <div id="clock2-container"></div>
+
         <p class="clock-notes">
           This clock treats each minute like a sprint rep. The teal bar fills left to right
-          over the 60 seconds. Above it is digital time. This feels more
-          like interval pacing. The runner can instantly see how deep they are into the
-          current rep.
+          over the 60 seconds, so you can see how deep you are into “this rep.” The bar
+          also subtly “breathes” (its height pulses smoothly) to suggest physical effort.
+          Above it is a digital timestamp and a live lap counter. When you click,
+          the bar “jumps lane” and the lap counter increments — based on feedback like
+          “I always tap my watch when I start a new interval, can I log that?”
         </p>
+
+        <h3>Sketch narrative</h3>
+
+        <ul>
+          <li><strong>Context:</strong> This is for interval training. During repeats (like 1 min on / 1 min off),
+            runners care less about wall clock time and more about “how far into this rep am I right now?”</li>
+
+          <li><strong>Design decisions:</strong>
+            <br>• The horizontal bar width = seconds within the current minute.
+            <br>• The pulsing bar height = breathing/effort.
+            <br>• Clicking toggles the bar’s lane position and increments a lap counter,
+            so you can mark each completed rep the same way you’d double tap a watch.
+            <br>• Dark navy background + high-contrast teal is meant for glanceability when you’re tired/sweaty.</li>
+
+          <li><strong>Future work:</strong> Persist lap history across multiple minutes,
+            and flash or vibrate when a set ends. Eventually color the bar by effort zone (easy / tempo / all-out).</li>
+        </ul>
+
+        <h3>Sketch evolution</h3>
+
+        <figure>
+          <img src="images/clock2_step1.jpg" alt="Clock 2 - step 1" />
+          <figcaption>
+            <strong>Step 1 — initial layout and annotated design decisions:</strong>
+            single teal bar that just fills across the width of the canvas as seconds pass.
+            Notes: “bar length = seconds.”
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/clock2_step2.jpg" alt="Clock 2 - step 2" />
+          <figcaption>
+            <strong>Step 2 — second layout after peer feedback:</strong>
+            added lane shift + click interaction and a lap counter.
+            Annotation: “tap to mark new interval.”
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/clock2_step3.jpg" alt="Clock 2 - step 3" />
+          <figcaption>
+            <strong>Step 3 — refined visuals and annotations:</strong>
+            breathing pulse in the bar height (maps to effort),
+            and cleaned up text labels under the bar to explain “Filling = this minute / Pulse = effort / Click = new lap.”
+          </figcaption>
+        </figure>
+
       </section>
     </section>
 
-    <!-- Homework 4: Sketch 1 -->
+
+    <!-- Homework 4: Sketch 3 / CLOCK 3 -->
     <section id="tab4" class="tab-content" role="tabpanel">
       <div id="sketch-container-sk4" class="sketch-container"></div>
+
       <section>
-        <h2>Clock 3 Prototype</h2>
+        <h2>Clock 3 Prototype — Route Progress Clock (Final)</h2>
         <div id="clock3-container"></div>
+
         <p class="clock-notes">
-          A full loop route (like running around Yellow Lake in Issaquah). The marker moves around
-          the loop as the minute and second pass. The checkpoints act like mile markers
-          and light up when you pass them. The digital time sits at the bottom like a
-          race clock.
+          This clock turns time into distance on a running loop. The polyline is a route
+          (like running around a lake). Your marker moves around it based on the current
+          minute and second. The part of the path you’ve “already run this hour” glows teal.
+          Checkpoint dots at 25%, 50%, 75% light up once you’ve passed them — basically
+          mile markers. The digital time sits nearby like a race clock.
         </p>
+
+        <h3>Sketch narrative</h3>
+
+        <ul>
+          <li><strong>Context:</strong> This is for runners who think in routes, not just numbers.
+            It answers “Where am I on the loop right now?” instead of only “What time is it?”</li>
+
+          <li><strong>Design decisions:</strong>
+            <br>• The looped route encodes one hour.
+            <br>• Position along the route encodes minute+second.
+            <br>• The completed segment glows bright teal, and the rest stays dim — so the current hour looks like a partially finished run.
+            <br>• Checkpoints at 25%, 50%, and 75% light up when reached, based on peer feedback:
+            “I want to know when I’ve hit halfway.”</li>
+
+          <li><strong>Future work:</strong> Add hover/click to show split time for each checkpoint,
+            and eventually layer in elevation or heart-rate colors to tell what parts of the loop are hardest.</li>
+        </ul>
+
+        <h3>Sketch evolution</h3>
+
+        <figure>
+          <img src="images/clock3_step1.jpg" alt="Clock 3 - step 1" />
+          <figcaption>
+            <strong>Step 1 — initial layout and annotated design decisions:</strong>
+            rough route outline with one moving dot labeled “this is you right now”.
+            Time-of-day text sits outside as plain HH:MM:SS.
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/clock3_step2.jpg" alt="Clock 3 - step 2" />
+          <figcaption>
+            <strong>Step 2 — second layout after peer feedback:</strong>
+            added checkpoint dots at 25%, 50%, 75% and a note:
+            “these glow once you’ve passed them.”
+          </figcaption>
+        </figure>
+
+        <figure>
+          <img src="images/clock3_step3.jpg" alt="Clock 3 - step 3" />
+          <figcaption>
+            <strong>Step 3 — refined visuals and annotations:</strong>
+            teal glow on the completed portion of the loop, gray on the rest,
+            and a race-clock style digital readout for clarity.
+          </figcaption>
+        </figure>
+
       </section>
     </section>
 
