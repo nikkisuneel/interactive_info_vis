@@ -1,0 +1,312 @@
+{
+  "tiers": [
+    {
+      "tier": "80-85",
+      "words": [
+        {
+          "word": "cherry",
+          "freq": 0.009005712180734659,
+          "category": "fruit",
+          "quote": "Usually Natura is better than this; this hot-vintage wine shows animal notes, spice and jumpy plum and cherry aromas. It's edgy and raw in feel, with hollow, green-leaning flavors and minty oak. An echo of green rattles across the finish."
+        },
+        {
+          "word": "berry",
+          "freq": 0.006950587334323736,
+          "category": "fruit",
+          "quote": "This wine is aromatically reticent with cocoa, berry, brown spices and light volatile notes. The palate is medium bodied with a thick feel and cranberry-like tartness."
+        },
+        {
+          "word": "fresh",
+          "freq": 0.005850320022683925,
+          "category": "acidity",
+          "quote": "Fresh aromas of plum, vanilla, flowers and spice lead to an off-dry palate full of blue-fruit flavors."
+        },
+        {
+          "word": "crisp",
+          "freq": 0.005355926781330354,
+          "category": "acidity",
+          "quote": "Not much going on beyond lots of oak and crisp, Central Coast acidity. You'll find watered down orange and tropical fruits."
+        },
+        {
+          "word": "apple",
+          "freq": 0.005263833922646846,
+          "category": "fruit",
+          "quote": "This ripe offering smells of corn, baked apple and oak. It's creamy and woody in the mouth, with modest acidity. Flavors of creamed corn, caramel and soft melon finish plump, with a baked quality. It lacks vivacity."
+        },
+        {
+          "word": "citrus",
+          "freq": 0.0051572000862764675,
+          "category": "fruit",
+          "quote": "Citric smelling, with floral notes and dampness. The palate is more thin and grating than expected, with red fruit, citrus, cherry sucking candy and graham cracker flavors. Finishes a bit edgy and candied, and overall it's generic with litt\u2026"
+        },
+        {
+          "word": "plum",
+          "freq": 0.004725817748232665,
+          "category": "fruit",
+          "quote": "Usually Natura is better than this; this hot-vintage wine shows animal notes, spice and jumpy plum and cherry aromas. It's edgy and raw in feel, with hollow, green-leaning flavors and minty oak. An echo of green rattles across the finish."
+        },
+        {
+          "word": "raspberry",
+          "freq": 0.0036982553250272036,
+          "category": "fruit",
+          "quote": "Fiery, hot aromas feature raspberry, burnt leaves, balsamic notes and earth. It's wild and jumpy in the mouth, with rhubarb and cranberry defining the tight, underdeveloped palate, while the finish is tangy and almost peachy. Shows many coo\u2026"
+        },
+        {
+          "word": "bright",
+          "freq": 0.003240214527890807,
+          "category": "acidity",
+          "quote": "The second in Three Brothers' series of four Rieslings, this wine would be more accurately described as semisweet. There's a familiar hint of fennel and petroleum on the nose here, contrasted by a bright lemon-honey sweetness and hints of g\u2026"
+        },
+        {
+          "word": "peach",
+          "freq": 0.003092381254740965,
+          "category": "fruit",
+          "quote": "This is a pale, light-bodied ros\u00e9 with aromas and flavors reminiscent of underripe peach and melon. It's clean, dry and even a bit austere on the finish, making it a fine ap\u00e9ritif."
+        },
+        {
+          "word": "blackberry",
+          "freq": 0.003014829373744326,
+          "category": "fruit",
+          "quote": "Earthy blackberry aromas come with an herbal/leafy edge. The palate is clacky and tannic, but low on volume and stuffing. Tastes of hollow but dark berry fruits, with a hint of buttery oak. A good but average type of Tempranillo."
+        },
+        {
+          "word": "lemon",
+          "freq": 0.003000288396057456,
+          "category": "fruit",
+          "quote": "A light and fruity style of Vinho Verde, its acidity balanced with pear and white-currant notes. Lemon flavors cut through, adding brightness."
+        }
+      ]
+    },
+    {
+      "tier": "86-90",
+      "words": [
+        {
+          "word": "cherry",
+          "freq": 0.010034240088587124,
+          "category": "fruit",
+          "quote": "This is a tasty Pinot Noir, but it's not particularly characteristic of Doctor's Vineyard or Santa Lucia Highlands. It's soft, ripe and sweet, and while the raspberry, cherry and red currant flavors are balanced with acidity, the wine taste\u2026"
+        },
+        {
+          "word": "fresh",
+          "freq": 0.006586918829134673,
+          "category": "acidity",
+          "quote": "Palmela is the region just south of Lisbon, producing light, fresh wines that are both great values and great everyday drinking. The strawberry fruit flavors are immediately appealing, freshened by the acidity."
+        },
+        {
+          "word": "berry",
+          "freq": 0.005965643349409177,
+          "category": "fruit",
+          "quote": "A big, generous wine that is full of rich berry and juicy black plum fruits. It has spice and solid tannins from both the fruit and wood aging, dense and with a good depth of flavor. The acidity and the tannins both promise aging. Drink fro\u2026"
+        },
+        {
+          "word": "plum",
+          "freq": 0.005322803898999024,
+          "category": "fruit",
+          "quote": "A big, generous wine that is full of rich berry and juicy black plum fruits. It has spice and solid tannins from both the fruit and wood aging, dense and with a good depth of flavor. The acidity and the tannins both promise aging. Drink fro\u2026"
+        },
+        {
+          "word": "apple",
+          "freq": 0.0051689420541139106,
+          "category": "fruit",
+          "quote": "This wine is crisp, tight and mineral while also full of lively apple and citrus fruit. It offers concentration from old vines and a fresh, forward character that demands instant drinking."
+        },
+        {
+          "word": "crisp",
+          "freq": 0.004921830606268122,
+          "category": "acidity",
+          "quote": "This wine is crisp, tight and mineral while also full of lively apple and citrus fruit. It offers concentration from old vines and a fresh, forward character that demands instant drinking."
+        },
+        {
+          "word": "citrus",
+          "freq": 0.00424868503489575,
+          "category": "fruit",
+          "quote": "This is reminiscent of a very well-done fruit cocktail. Grape. melon and pear mingle amongst citrus freshness with some tropical hints of lychee mixed in. Wonderfully fruity, rounded and fresh with a zesty seam of acidity."
+        },
+        {
+          "word": "bright",
+          "freq": 0.004210219573674471,
+          "category": "acidity",
+          "quote": "Loaded with finesse, this bright creamy wine hits all the right buttons. It opens with lovely scents of acacia flower and white stone fruit while the polished silky palate delivers yellow apple, ripe pear and lemon zest alongside fresh acid\u2026"
+        },
+        {
+          "word": "blackberry",
+          "freq": 0.004200894613378404,
+          "category": "fruit",
+          "quote": "Armille is a pure expression of Syrah from the little-known Basilicata area of Southern Italy with chewy blackberry and blueberry flavors backed by soft, plush tannins. The wine has a velvety feel and great density on the finish."
+        },
+        {
+          "word": "lemon",
+          "freq": 0.0033820465373799774,
+          "category": "fruit",
+          "quote": "Loaded with finesse, this bright creamy wine hits all the right buttons. It opens with lovely scents of acacia flower and white stone fruit while the polished silky palate delivers yellow apple, ripe pear and lemon zest alongside fresh acid\u2026"
+        },
+        {
+          "word": "peach",
+          "freq": 0.003345329506214212,
+          "category": "fruit",
+          "quote": "This Cartizze expression of Prosecco Superiore shows gorgeous fullness and softness with pretty layers of peach, nectarine and dry talc powder. The sparkler is smooth and creamy and renders a generous and soft feeling in the mouth."
+        },
+        {
+          "word": "raspberry",
+          "freq": 0.0030376058164439845,
+          "category": "fruit",
+          "quote": "This is a tasty Pinot Noir, but it's not particularly characteristic of Doctor's Vineyard or Santa Lucia Highlands. It's soft, ripe and sweet, and while the raspberry, cherry and red currant flavors are balanced with acidity, the wine taste\u2026"
+        }
+      ]
+    },
+    {
+      "tier": "91-95",
+      "words": [
+        {
+          "word": "cherry",
+          "freq": 0.008783186410417077,
+          "category": "fruit",
+          "quote": "Densely delicious, this is earthy in a forest floor kind of way\u2014it's explosive in black cherry, plum and compelling, exotic spice. Medium bodied and lushly layered, it's persistent on the palate, brooding in ripe fruit yet buoyed by ample a\u2026"
+        },
+        {
+          "word": "blackberry",
+          "freq": 0.004600818877091184,
+          "category": "fruit",
+          "quote": "A big, firm 100% Cab, rich in blackberry jam and black currant flavors, enriched with lots of sweet, smoky oak. It's made in the modern cult style of soft approachability. It might age, but seems best now for sheer luxury."
+        },
+        {
+          "word": "plum",
+          "freq": 0.004123355164333354,
+          "category": "fruit",
+          "quote": "Rich black plum pudding, cigar box and pine needle aromas show on the nose of this blend of 60% Syrah and 40% Grenache from this increasingly prominent vineyard. The sip is hearty with tons of juniper, licorice and forest floor spice that e\u2026"
+        },
+        {
+          "word": "berry",
+          "freq": 0.004048248512888301,
+          "category": "fruit",
+          "quote": "The first Bishop Creek designation from Erath, this dark-toned, deep and concentrated Pinot Noir is one to cellar. The fruit is seamless, sappy and dense, suggesting a mix of ripe berries. Fourteen months in French oak, about 40% new, seems\u2026"
+        },
+        {
+          "word": "fresh",
+          "freq": 0.004011768139329276,
+          "category": "acidity",
+          "quote": "Fresh fruit aromas are a delicious part of this crisp, fruity wine. It is well balanced, with lively acidity sharing the stage with the ripe pear and pineapple flavors. It's ready to drink now."
+        },
+        {
+          "word": "firm",
+          "freq": 0.0038390228410056567,
+          "category": "texture",
+          "quote": "Dark and structured, this is a firm wine. It has a smoky wood character, powerful tannins over intensely ripe fruit. Acidity and sweetness balance to give a dense wine, powered with richness and destined to age for many years."
+        },
+        {
+          "word": "balanced",
+          "freq": 0.0031383850782396717,
+          "category": "emotion",
+          "quote": "This is a ripe, beautifully balanced wine. It has the extra richness and density that comes from a wine produced from vines close to Mont Sainte-Victoire. Full of raspberry and orange fruits, it has a pleasantly tangy, herbal edge on the fi\u2026"
+        },
+        {
+          "word": "raspberry",
+          "freq": 0.0028819495111629943,
+          "category": "fruit",
+          "quote": "This is a ripe, beautifully balanced wine. It has the extra richness and density that comes from a wine produced from vines close to Mont Sainte-Victoire. Full of raspberry and orange fruits, it has a pleasantly tangy, herbal edge on the fi\u2026"
+        },
+        {
+          "word": "complex",
+          "freq": 0.002849760946257972,
+          "category": "emotion",
+          "quote": "This Malbec-led blend (with Petit Verdot and Tannat) is muscular and piercing on the nose, with aromas of brick dust, black cherry, cassis and raisin. The palate is saturated and creamy, with a lactic sensation competing with rubbery tannin\u2026"
+        },
+        {
+          "word": "dense",
+          "freq": 0.002741392777744397,
+          "category": "texture",
+          "quote": "Dark and structured, this is a firm wine. It has a smoky wood character, powerful tannins over intensely ripe fruit. Acidity and sweetness balance to give a dense wine, powered with richness and destined to age for many years."
+        },
+        {
+          "word": "apple",
+          "freq": 0.0026845263130788576,
+          "category": "fruit",
+          "quote": "Linear and intense, this elegant blend of 70% Pinot Nero and 30% Chardonnay opens with aromas of fragrant flowers, yeast and a whiff of orchard fruit. The firm, focused palate delivers ripe apple, citrus zest, almond and energizing mineral \u2026"
+        },
+        {
+          "word": "lemon",
+          "freq": 0.0026770156479343525,
+          "category": "fruit",
+          "quote": "Honey and lemon accent the nose and palate of this stately flagship wine from Sparkling Pointe. Extended lees aging lends remarkable depth and complexity\u2014shades of brioche and almond add a richness on the palate. Revitalizing acidity and a \u2026"
+        }
+      ]
+    },
+    {
+      "tier": "96+",
+      "words": [
+        {
+          "word": "cherry",
+          "freq": 0.006577668329985095,
+          "category": "fruit",
+          "quote": "Fresh and full of finesse, this radiant red offers rose, forest floor, woodland berry, new leather and pipe tobacco scents. The palate delivers juicy red cherry, crushed raspberry, wild herb and white pepper notes, finishing on star anise. \u2026"
+        },
+        {
+          "word": "complex",
+          "freq": 0.003953081459399909,
+          "category": "emotion",
+          "quote": "A splendid Chardonnay, rich, vital and elegant, with so many layers of interest. Framed by a cut of brilliant acidity, it evolves with complex flavors of citrus and tropical fruits, minerals, flowers and honey, then finishes long and savory\u2026"
+        },
+        {
+          "word": "dense",
+          "freq": 0.0038558745382671245,
+          "category": "texture",
+          "quote": "This is a huge wine that's dense in flavors, rich in tannins, and with the soft lusciousness associated with this vineyard. Made from old vines, it's bold in cherry pie, red currants and mocha, yet dry and resilient on the finish. Delicious\u2026"
+        },
+        {
+          "word": "firm",
+          "freq": 0.0034994491607802476,
+          "category": "texture",
+          "quote": "This hugely rich yet approachable wine shows power and boldness. All the elements are there, linked by firm tannins and freshness from berry acidity."
+        },
+        {
+          "word": "berry",
+          "freq": 0.0034346445466917246,
+          "category": "fruit",
+          "quote": "Fresh and full of finesse, this radiant red offers rose, forest floor, woodland berry, new leather and pipe tobacco scents. The palate delivers juicy red cherry, crushed raspberry, wild herb and white pepper notes, finishing on star anise. \u2026"
+        },
+        {
+          "word": "blackberry",
+          "freq": 0.003240230704426155,
+          "category": "fruit",
+          "quote": "A beautiful wine, with the firmest tannins surrounded by perfumed fruit. It is dense, of course, but this density is balanced with great elegance, blackberry fruits, sweetness and final juicy acidity. The wine is structured, a powerhouse of\u2026"
+        },
+        {
+          "word": "balanced",
+          "freq": 0.002981012248072063,
+          "category": "emotion",
+          "quote": "From one of the most coveted vineyards in the Central Coast, this is a well-balanced whopper of a wine, starting on aromas of fresh raspberry, black plum, forest floor, violets and dark chocolate. The palate is rich upfront, showing strawbe\u2026"
+        },
+        {
+          "word": "raspberry",
+          "freq": 0.0027217937917179704,
+          "category": "fruit",
+          "quote": "Fresh and full of finesse, this radiant red offers rose, forest floor, woodland berry, new leather and pipe tobacco scents. The palate delivers juicy red cherry, crushed raspberry, wild herb and white pepper notes, finishing on star anise. \u2026"
+        },
+        {
+          "word": "fresh",
+          "freq": 0.0023329661071868316,
+          "category": "acidity",
+          "quote": "Fresh and full of finesse, this radiant red offers rose, forest floor, woodland berry, new leather and pipe tobacco scents. The palate delivers juicy red cherry, crushed raspberry, wild herb and white pepper notes, finishing on star anise. \u2026"
+        },
+        {
+          "word": "orange",
+          "freq": 0.002235759186054047,
+          "category": "fruit",
+          "quote": "What to mention first? A hint of mossy earth, chamomile tisane, Cox Orange Pippin apples or lemon zest? All of these aromas dance on the nose. They are still totally shy on the taut, dry and concentrated palate. For now, it is mossy citrus \u2026"
+        },
+        {
+          "word": "bright",
+          "freq": 0.0021385522649212626,
+          "category": "acidity",
+          "quote": "Fresh and full of finesse, this radiant red offers rose, forest floor, woodland berry, new leather and pipe tobacco scents. The palate delivers juicy red cherry, crushed raspberry, wild herb and white pepper notes, finishing on star anise. \u2026"
+        },
+        {
+          "word": "plum",
+          "freq": 0.0021061499578770007,
+          "category": "fruit",
+          "quote": "From one of the most coveted vineyards in the Central Coast, this is a well-balanced whopper of a wine, starting on aromas of fresh raspberry, black plum, forest floor, violets and dark chocolate. The palate is rich upfront, showing strawbe\u2026"
+        }
+      ]
+    }
+  ]
+}
