@@ -1,37 +1,40 @@
-// sketches/sketch5.js — HW5: Best-Value Wines (clean layout)
+// sketches/sketch5.js
 (function () {
   function factory(p) {
-    // Canvas & layout
+    // Canvas + layout
     const W = 1080, H = 1350;
-    const SIDEBAR_W = 220;               // reserved legend panel (right)
-    const M = { l: 110, r: SIDEBAR_W + 24, t: 120, b: 150 };
+    const SIDEBAR_W = 230;                                  // legend panel on the far right
+    const M = { l: 110, r: SIDEBAR_W + 28, t: 180, b: 140 };// title padding
 
-    // Data containers
+
+    const xMin = 0,  xMax = 55; 
+    const yMin = 83, yMax = 92;  
+
+    // sizes
+    const sMin = 6, sMax = 64;
+
+    // data
     let raw = null;
     let pts = [];
 
-    // Encoding
-    let xMin = 0, xMax = 200; // will be set from percentiles
-    let yMin = 80, yMax = 100;
-    const sMin = 6, sMax = 64;
-
-    // “Narrative” highlights
+    // narrative highlights
     const underrated = new Set(["Portugal", "Chile", "Argentina"]);
-    const premium = new Set(["France", "United States"]);
+    const premium    = new Set(["France", "United States"]);
 
+    // colors
     const PALETTE = {
-      "Europe": p => p.color(154, 46, 85),
+      "Europe":        p => p.color(154, 46, 85),
       "North America": p => p.color(48, 123, 201),
       "South America": p => p.color(226, 131, 59),
-      "Oceania": p => p.color(116, 160, 96),
-      "Africa": p => p.color(130, 100, 68),
-      "Asia": p => p.color(144, 102, 184),
-      "Other": p => p.color(130)
+      "Oceania":       p => p.color(116, 160, 96),
+      "Africa":        p => p.color(130, 100, 68),
+      "Asia":          p => p.color(144, 102, 184),
+      "Other":         p => p.color(130)
     };
 
-    // Sweet spot box thresholds
-    const SWEET_PRICE = 20;
-    const SWEET_POINTS = 90;
+    // sweet spot 
+    const SWEET_PRICE  = 32;    // <= $35
+    const SWEET_POINTS = 88.5;  // >= 88.5 pts
 
     p.preload = function () {
       try { raw = p.loadJSON("assets/country_value.json"); } catch (e) { raw = null; }
@@ -42,103 +45,103 @@
       c.elt.style.borderRadius = "16px";
       p.textFont("Inter");
       prepare();
-      computeScales();
     };
 
-    // data util
+    // Data
     function prepare() {
       const rows = (raw && raw.rows) ? raw.rows : [];
-      pts = rows.map(r => ({
-        country: r.country,
-        continent: r.continent || "Other",
-        x: clamp(r.avg_price, 0, 1e6),
-        y: clamp(r.avg_points, 70, 100),
-        n: r.count || 1
-      }));
-      // basic stability filter
-      pts = pts.filter(d => d.n >= 50);
+
+      pts = rows
+        .filter(r => (r.count || 0) >= 50) 
+        .map(r => {
+          // continent overrides and variants
+          const OVERRIDE = {
+            "Romania": "Europe",
+            "Bulgaria": "Europe",
+            "Moldova": "Europe",
+            "Molodova": "Europe", 
+            "Croatia": "Europe",
+            "Slovenia": "Europe",
+            "England": "Europe",
+            "US": "North America",
+            "U.S.": "North America",
+            "United States of America": "North America"
+          };
+          const country   = r.country;
+          let   continent = r.continent || "Other";
+          if (OVERRIDE[country]) continent = OVERRIDE[country];
+          if (country === "United States") continent = "North America"; // dataset variant
+
+          return {
+            country,
+            continent,
+            x: clamp(r.avg_price,  xMin, xMax * 5),
+            y: clamp(r.avg_points, yMin, Math.max(yMax, 100)),
+            n: r.count || 1
+          };
+        });
     }
 
-    function quantile(arr, q) {
-      if (!arr.length) return NaN;
-      const a = arr.slice().sort((x, y) => x - y);
-      const pos = (a.length - 1) * q;
-      const base = Math.floor(pos);
-      const rest = pos - base;
-      if (a[base + 1] !== undefined) return a[base] + rest * (a[base + 1] - a[base]);
-      return a[base];
-    }
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
-    function niceMax(v, step) { return Math.ceil(v / step) * step; }
-    function niceMin(v, step) { return Math.floor(v / step) * step; }
-
-    function computeScales() {
-      // Use percentiles to avoid outliers squeezing the cloud
-      const prices = pts.map(d => d.x);
-      const ratings = pts.map(d => d.y);
-
-      const p02 = quantile(prices, 0.02), p97 = quantile(prices, 0.97);
-      const r02 = quantile(ratings, 0.02), r98 = quantile(ratings, 0.98);
-
-      xMin = 0;                         // keep price from 0 for narrative
-      xMax = niceMax(Math.max(40, p97), 20);   // round up to a nice tick (20s)
-      xMax = Math.min(xMax, 200);              // hard cap for axis label
-
-      yMin = niceMin(Math.min(86, r02 - 0.5), 1);   // most wines are 86–92ish
-      yMax = niceMax(Math.max(92, r98 + 0.5), 1);
-      yMin = Math.max(80, yMin);
-      yMax = Math.min(100, yMax);
-    }
-
-    // Scale
+    // scales
     function x2px(x) { return p.map(x, xMin, xMax, M.l, W - M.r); }
     function y2px(y) { return p.map(y, yMin, yMax, H - M.b, M.t); }
     function r2px(n) {
       const nMin = 50, nMax = Math.max(60, Math.max(...pts.map(d => d.n)));
       return p.map(Math.sqrt(n), Math.sqrt(nMin), Math.sqrt(nMax), sMin, sMax, true);
     }
-    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
-    // Drawing
+    // tick helper that respects current bounds
+    function ticks(from, to, step) {
+      const t = [];
+      for (let v = Math.ceil(from / step) * step; v <= to + 1e-6; v += step) {
+        t.push(+v.toFixed(10));
+      }
+      if (t[0] !== from) t.unshift(from);
+      if (t[t.length - 1] !== to) t.push(to);
+      return t;
+    }
+    function ticksX() { return ticks(xMin, xMax, 10); } 
+    function ticksY() { return ticks(yMin, yMax, 1);  } 
+
+    // drawing
     p.draw = function () {
       drawBackground();
       drawTitle();
       drawAxes();
       drawSweetSpot();
 
-      // Bubbles: draw small → large so big ones sit on top but remain readable
+      // bubbles (small to large so large don’t overlap others)
       pts.slice().sort((a, b) => a.n - b.n).forEach(d => {
-        const cx = x2px(clamp(d.x, xMin, xMax));
-        const cy = y2px(clamp(d.y, yMin, yMax));
-        const r = r2px(d.n);
+        const cx  = x2px(clamp(d.x, xMin, xMax));
+        const cy  = y2px(clamp(d.y, yMin, yMax));
+        const rad = r2px(d.n);
         const col = (PALETTE[d.continent] || PALETTE.Other)(p);
 
-        // Halo only for highlighted sets
         if (underrated.has(d.country) || premium.has(d.country)) {
           p.noFill(); p.stroke(0, 35); p.strokeWeight(5);
-          p.circle(cx, cy, (r + 8) * 2);
+          p.circle(cx, cy, (rad + 8) * 2);
         }
         p.noStroke();
         p.fill(p.red(col), p.green(col), p.blue(col), 200);
-        p.circle(cx, cy, r * 2);
+        p.circle(cx, cy, rad * 2);
       });
 
-      // Minimal labels to avoid clutter
+      // concise labels
       ["Portugal", "Chile", "Argentina", "France", "United States"].forEach(labelCountry);
 
       drawLegendPanel();
-      drawFooter();
 
+      // tooltip
       const hit = pick(p.mouseX, p.mouseY);
       if (hit) drawTooltip(hit);
     };
 
     function drawBackground() {
-      // Clean, flat background (no vignette)
       p.background(250, 247, 243);
       // chart panel
-      p.noStroke();
-      p.fill(255);
+      p.noStroke(); p.fill(255);
       p.rect(M.l - 10, M.t - 10, (W - M.r) - (M.l - 10), (H - M.b) - (M.t - 10), 10);
     }
 
@@ -146,20 +149,23 @@
       p.fill(30);
       p.textAlign(p.LEFT, p.TOP);
       p.textFont("Libre Baskerville"); p.textSize(44);
-      p.text("Price Isn’t Everything", M.l, 36);
+      p.text("Price Isn’t Everything", M.l, 48);
       p.textFont("Inter"); p.fill(80); p.textSize(20);
-      p.text("Where in the world you’ll find high ratings without high prices", M.l, 36 + 48);
+      p.text("Where in the world you’ll find high ratings without high prices", M.l, 48 + 48);
+      // chart starts at M.t, so nothing overlaps the title.
     }
 
     function drawAxes() {
       // grid
       p.stroke(232); p.strokeWeight(1);
-      // vertical grid ticks at nice intervals
-      const xTicks = ticksNice(xMin, xMax, 6);   // 6 ticks
-      xTicks.forEach(v => p.line(x2px(v), H - M.b, x2px(v), M.t));
-      // horizontal grid
-      const yTicks = ticksNice(yMin, yMax, 6);
-      yTicks.forEach(v => p.line(M.l, y2px(v), W - M.r, y2px(v)));
+      ticksX().forEach(v => {
+        const x = x2px(v);
+        p.line(x, H - M.b, x, M.t);
+      });
+      ticksY().forEach(v => {
+        const y = y2px(v);
+        p.line(M.l, y, W - M.r, y);
+      });
 
       // axes
       p.stroke(180);
@@ -168,14 +174,10 @@
 
       // tick labels
       p.noStroke(); p.fill(70); p.textFont("Inter"); p.textSize(14);
-      xTicks.forEach(v => {
-        p.textAlign(p.CENTER, p.TOP);
-        p.text("$" + v, x2px(v), H - M.b + 8);
-      });
-      yTicks.forEach(v => {
-        p.textAlign(p.RIGHT, p.CENTER);
-        p.text(v, M.l - 8, y2px(v));
-      });
+      p.textAlign(p.CENTER, p.TOP);
+      ticksX().forEach(v => p.text("$" + v, x2px(v), H - M.b + 8));
+      p.textAlign(p.RIGHT, p.CENTER);
+      ticksY().forEach(v => p.text(v, M.l - 8, y2px(v)));
 
       // axis titles
       p.fill(50); p.textSize(16);
@@ -188,33 +190,16 @@
       p.pop();
     }
 
-    function ticksNice(min, max, count) {
-      // simple nice ticks
-      const span = max - min;
-      const stepRaw = span / count;
-      const pow10 = Math.pow(10, Math.floor(Math.log10(stepRaw)));
-      const steps = [1, 2, 2.5, 5, 10].map(s => s * pow10);
-      const step = steps.reduce((best, s) =>
-        Math.abs(stepRaw - s) < Math.abs(stepRaw - best) ? s : best, steps[0]);
-      const start = Math.ceil(min / step) * step;
-      const arr = [];
-      for (let v = start; v <= max + 1e-6; v += step) arr.push(Math.round(v * 100) / 100);
-      if (arr[0] > min) arr.unshift(min);
-      return arr;
-    }
-
     function drawSweetSpot() {
-      // only render if it sits inside the current domain
-      if (SWEET_PRICE <= xMax && SWEET_POINTS <= yMax) {
-        const x1 = x2px(xMin), x2 = x2px(Math.min(SWEET_PRICE, xMax));
-        const y1 = y2px(yMax), y2 = y2px(Math.max(SWEET_POINTS, yMin));
-        p.noStroke();
-        p.fill(60, 180, 120, 30);
-        p.rect(x1, y1, x2 - x1, y2 - y1, 6);
+      // box in top left of the chart given fixed axes
+      const x1 = x2px(xMin), x2 = x2px(Math.min(SWEET_PRICE, xMax));
+      const y1 = y2px(yMax), y2 = y2px(Math.max(SWEET_POINTS, yMin));
+      p.noStroke();
+      p.fill(60, 180, 120, 30);
+      p.rect(x1, y1, x2 - x1, y2 - y1, 6);
 
-        p.fill(40); p.textSize(14); p.textAlign(p.LEFT, p.TOP); p.noStroke();
-        p.text("Sweet spot: high rating, low price", x1 + 8, y1 + 6);
-      }
+      p.fill(40); p.textSize(14); p.textAlign(p.LEFT, p.TOP); p.noStroke();
+      p.text(`Sweet spot: ≥ ${SWEET_POINTS} pts & ≤ $${SWEET_PRICE}`, x1 + 8, y1 + 6);
     }
 
     function labelCountry(name) {
@@ -222,9 +207,8 @@
       if (!d) return;
       const cx = x2px(clamp(d.x, xMin, xMax));
       const cy = y2px(clamp(d.y, yMin, yMax));
-      const r = r2px(d.n);
-      const side = underrated.has(name) ? 1 : -1; // left/right alternation
-
+      const r  = r2px(d.n);
+      const side = (underrated.has(name) ? 1 : -1);
       const tx = cx + side * (r + 14);
       const ty = cy - r - 4;
 
@@ -236,62 +220,65 @@
     }
 
     function drawLegendPanel() {
-      // sidebar box
-      const x0 = W - SIDEBAR_W + 12, y0 = M.t - 10, w = SIDEBAR_W - 36, h = (H - M.b) - (M.t - 10);
+      // measure content height so box doesn't run to the bottom
+      const x0 = W - SIDEBAR_W + 16;
+      const w  = SIDEBAR_W - 36;
+
+      // layout constants
+      const PAD_T = 14, PAD_B = 16, GAP = 22, LINE = 18;
+      let y = 0;
+
+      // pre-compute height
+      y += PAD_T;
+      y += LINE;                              
+      y += Object.keys(PALETTE).length * GAP; 
+      y += 12;                               
+      y += LINE;                              
+      y += 3 * GAP;                         
+      y += PAD_B;
+
+      const y0 = M.t - 10; 
+      const h  = y;
+
+      // draw box
       p.noStroke(); p.fill(255);
       p.rect(x0, y0, w, h, 10);
 
-      // continent legend
-      let y = y0 + 16, x = x0 + 16;
+      // draw content
+      let cy = y0 + PAD_T, cx = x0 + 16;
       p.fill(30); p.textFont("Inter"); p.textSize(16); p.textAlign(p.LEFT, p.TOP);
-      p.text("Continent", x, y);
-      y += 6;
+      p.text("Continent", cx, cy); cy += LINE - 4;
 
       Object.keys(PALETTE).forEach(key => {
-        y += 22;
+        cy += GAP;
         const col = PALETTE[key](p);
-        p.noStroke(); p.fill(col);
-        p.circle(x + 8, y, 10);
+        p.noStroke(); p.fill(col); p.circle(cx + 8, cy, 10);
         p.fill(70); p.textSize(13); p.textAlign(p.LEFT, p.CENTER);
-        p.text(key, x + 22, y);
+        p.text(key, cx + 22, cy);
       });
 
-      // size legend
-      y += 28; p.fill(30); p.textSize(16); p.text("Sample size", x, y); y += 6;
+      cy += 12; p.fill(30); p.textSize(16); p.textAlign(p.LEFT, p.TOP);
+      p.text("Sample size", cx, cy); cy += LINE - 4;
+
       [60, 300, 1000].forEach(n => {
-        y += 26;
+        cy += GAP;
         p.noStroke(); p.fill(120, 130);
-        p.circle(x + 10, y, r2px(n) * 2);
+        p.circle(cx + 10, cy, r2px(n) * 2);
         p.fill(70); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
-        p.text(n + " reviews", x + 28, y);
+        p.text(n + " reviews", cx + 28, cy);
       });
     }
 
-    function drawFooter() {
-      // two clean lines, pinned inside chart width
-      p.textFont("Inter"); p.textSize(13); p.fill(85);
-      p.textAlign(p.LEFT, p.BOTTOM);
-      const left = M.l, right = W - M.r;
-      p.text(
-        "Dataset: Wine Enthusiast (≈130k). Countries with ≥50 reviews. Price axis uses the 97th percentile for legibility.",
-        left, H - 24, right - left, 40
-      );
-      p.textAlign(p.RIGHT, p.BOTTOM);
-      p.text(
-        "Takeaway: Look to Portugal, Chile and Argentina for 90+ wines at approachable prices.",
-        right, H - 24, right - left, 40
-      );
-    }
-
-    // hit test
+    // picking & tooltip
     function pick(mx, my) {
-      // ignore sidebar area
-      if (mx > W - M.r) return null;
+      if (mx > W - M.r) return null; 
+      // only consider points inside chart panel
+      if (mx < M.l || mx > (W - M.r) || my < M.t || my > (H - M.b)) return null;
       for (let i = pts.length - 1; i >= 0; i--) {
         const d = pts[i];
         const cx = x2px(clamp(d.x, xMin, xMax));
         const cy = y2px(clamp(d.y, yMin, yMax));
-        const r = r2px(d.n);
+        const r  = r2px(d.n);
         if ((mx - cx) ** 2 + (my - cy) ** 2 <= r ** 2) return d;
       }
       return null;
