@@ -1,367 +1,265 @@
-// sketches/sketch5.js — INFO 474 HW5: Aroma Plume Poster (p5 instance-mode)
-(function () {
-  function factory(p) {
+// sketches/sketch5.js — HW5: Best-Value Wines (p5 instance-mode)
+(function(){
+  function factory(p){
+    const W=1080,H=1350,M={l:100,r:120,t:110,b:140};
+    let data=null, pts=[];
+    const underrated = new Set(["Portugal","Chile","Argentina"]);
+    const premium = new Set(["France","United States"]);
 
-    const IG_W = 1080, IG_H = 1350;
-
-
-    const M = { l: 80, r: 80, t: 70, b: 120 };
-    const lanes = ["80-85", "86-90", "91-95", "96+"]; // columns
-    const laneX = {};
-
-    // Fonts from google fonts
-    let titleFont = "Libre Baskerville";
-    let uiFont = "Inter";
-
-    // Colors
-    const COL = {
-      bgTop:  p.color(252, 249, 246),
-      bgMid:  p.color(248, 240, 228),
-      bgBot:  p.color(242, 230, 212),
-      ink:    p.color(36, 32, 28),
-      mute:   p.color(90, 82, 76),
-      plume:  {
-        fruit:   p.color(184, 52, 73, 38),   // rosy
-        aroma:   p.color(214, 120, 66, 38),  // amber
-        texture: p.color(150, 104, 67, 38),  // toffee
-        acidity: p.color(46, 140, 150, 38),  // teal
-        emotion: p.color(205, 164, 57, 38)   // gold
-      },
-      dots:   {
-        fruit:   p.color(184, 52, 73),
-        aroma:   p.color(214, 120, 66),
-        texture: p.color(150, 104, 67),
-        acidity: p.color(46, 140, 150),
-        emotion: p.color(205, 164, 57)
-      }
+    const PALETTE = {
+      "Europe": p=>p.color(150, 45, 80),
+      "North America": p=>p.color(40, 120, 200),
+      "South America": p=>p.color(220, 120, 60),
+      "Oceania": p=>p.color(120, 160, 80),
+      "Africa": p=>p.color(120, 90, 60),
+      "Asia": p=>p.color(140, 90, 180),
+      "Other": p=>p.color(120)
     };
 
-    let legendItems;
-    let data = null;              // JSON from assets/wine_words.json (if present)
-    let particles = [];         
+    let fonts = { title:"Libre Baskerville", ui:"Inter" };
 
-/*
-    const FALLBACK = {
-      "tiers":[
-        {"tier":"80-85","words":[
-          {"word":"bright","freq":0.0020,"category":"acidity","quote":"A bright, simple wine with citrusy snap."},
-          {"word":"fruity","freq":0.0018,"category":"fruit","quote":"Lively and fruity with lemon and apple notes."},
-          {"word":"crisp","freq":0.0015,"category":"acidity","quote":"Crisp palate, easy weeknight pour."},
-          {"word":"apple","freq":0.0013,"category":"fruit","quote":"Green-apple flavors lead the palate."},
-          {"word":"fresh","freq":0.0012,"category":"acidity","quote":"Fresh and light-bodied."}
-        ]},
-        {"tier":"86-90","words":[
-          {"word":"cherry","freq":0.0022,"category":"fruit","quote":"Red-cherry core with a zesty finish."},
-          {"word":"citrus","freq":0.0019,"category":"fruit","quote":"Citrus peel and saline lift."},
-          {"word":"floral","freq":0.0015,"category":"floral","quote":"Floral tones frame the fruit."},
-          {"word":"spice","freq":0.0014,"category":"aroma","quote":"Hint of baking spice on the midpalate."},
-          {"word":"zesty","freq":0.0013,"category":"acidity","quote":"Zesty acidity keeps it lively."}
-        ]},
-        {"tier":"91-95","words":[
-          {"word":"velvety","freq":0.0024,"category":"texture","quote":"Velvety tannins wrap ripe blackberries."},
-          {"word":"layered","freq":0.0022,"category":"emotion","quote":"Layered and energetic, with depth."},
-          {"word":"plum","freq":0.0018,"category":"fruit","quote":"Plum and cocoa accents."},
-          {"word":"polished","freq":0.0017,"category":"texture","quote":"Polished texture, long finish."},
-          {"word":"complex","freq":0.0016,"category":"emotion","quote":"Complex yet balanced."}
-        ]},
-        {"tier":"96+","words":[
-          {"word":"elegant","freq":0.0030,"category":"emotion","quote":"Utterly elegant; a wine of poise."},
-          {"word":"balanced","freq":0.0027,"category":"emotion","quote":"Perfectly balanced, seamless."},
-          {"word":"silky","freq":0.0025,"category":"texture","quote":"Silky from start to finish."},
-          {"word":"graceful","freq":0.0018,"category":"emotion","quote":"Graceful and precise."},
-          {"word":"violet","freq":0.0016,"category":"floral","quote":"Violet and spice perfume the nose."}
-        ]}
-      ]
-    };
-*/
-    p.preload = function () {
-  
-      try {
-        data = p.loadJSON("assets/wine_words.json");
-      } catch (e) {
-        data = null;
-      }
+    // axes scales
+    let xMin=0, xMax=200;     // price axis cap
+    let yMin=80, yMax=100;    // rating axis
+    let sMin=6,  sMax=64;     // bubble pixel radius
+
+    // sweet-spot thresholds (you can tweak)
+    const SWEET_PRICE = 20;   // <= $20
+    const SWEET_POINTS = 90;  // >= 90 pts
+
+    p.preload = function(){
+      try { data = p.loadJSON("assets/country_value.json"); } catch(e){ data=null; }
     };
 
-    p.setup = function () {
-      const c = p.createCanvas(IG_W, IG_H);
+    p.setup = function(){
+      const c = p.createCanvas(W,H);
       c.elt.style.borderRadius = "16px";
-      p.textFont(uiFont);
-
-      // lane x-positions across width
-      const gap = (p.width - (M.l + M.r)) / (lanes.length - 1);
-      lanes.forEach((t, i) => laneX[t] = M.l + i * gap);
-
-      legendItems = [
-        ["fruit",   COL.dots.fruit],
-        ["aroma",   COL.dots.aroma],
-        ["texture", COL.dots.texture],
-        ["acidity", COL.dots.acidity],
-        ["emotion", COL.dots.emotion]
-      ];
-
-
-      buildParticles((data && data.tiers) ? data : FALLBACK);
+      p.textFont("Inter");
+      prepare();
     };
 
-    // Build & placement
-    function buildParticles(json) {
-      particles = [];
-      const order = {"80-85":0,"86-90":1,"91-95":2,"96+":3};
-
-
-      const tiers = [...json.tiers].sort((a,b)=> order[a.tier]-order[b.tier]);
-
-      tiers.forEach(tierObj => {
-        const words = tierObj.words.slice(0, 12); // cap to avoid clutter
-        words.forEach((w, i) => {
-          particles.push(makeWord(w, tierObj.tier, i));
-        });
+    function prepare(){
+      const rows = (data && data.rows) ? data.rows : [];
+      pts = rows.map(r=>{
+        // map fields
+        const price  = clamp(r.avg_price, 0, xMax);
+        const points = clamp(r.avg_points, yMin, yMax);
+        const count  = r.count || 1;
+        const cont   = r.continent || "Other";
+        return {
+          country: r.country,
+          continent: cont,
+          x: price,
+          y: points,
+          count: count
+        };
       });
     }
 
-    function makeWord(w, tier, idx) {
-      const maxF = maxFreqAcrossTiers();
-      const size = p.map(w.freq || 0.001, 0, maxF, 16, 52, true);
-      const colKey = w.category || "emotion";
-      const col = COL.dots[colKey] || p.color(120);
-      const alpha = p.map(w.freq || 0.001, 0, maxF, 160, 255, true);
+    function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 
-      // initial y stagger per tier; higher tiers sit higher
-      let y = tierStartY(tier) - idx * 42 + p.random(-6, 6);
-      let x = laneCurveX(tier, y);
-
-      // nudge to avoid overlapping previously placed labels
-      let tries = 0;
-      while (collides(x, y, size) && tries < 80) {
-        y -= 10;
-        x = laneCurveX(tier, y);
-        tries++;
-      }
-
-      return { word: w.word, quote: w.quote || "", x, y, size, col, alpha, tier, colKey };
+    // scales
+    function x2px(x){ return p.map(x, xMin, xMax, M.l, W-M.r); }
+    function y2px(y){ return p.map(y, yMin, yMax, H-M.b, M.t); } // higher points = higher on canvas
+    function r2px(n){
+      // sqrt scale for area ~ count
+      const nMin = 50, nMax = Math.max(60, Math.max(...pts.map(d=>d.count)));
+      return p.map(Math.sqrt(n), Math.sqrt(nMin), Math.sqrt(nMax), sMin, sMax, true);
     }
 
-    function maxFreqAcrossTiers() {
-      let m = 0.01;
-      const src = (data && data.tiers) ? data : FALLBACK;
-      src.tiers.forEach(t => t.words.forEach(w => { if ((w.freq || 0) > m) m = w.freq; }));
-      return m;
-    }
-
-    // Wider spread higher up (so plumes open)
-    function laneCurveX(tier, y) {
-      const x = laneX[tier];
-      const ymin = tierStartY("80-85");       // lowest band start
-      const ymax = M.t + 200;                 // upper clamp where plumes narrow
-      const t = p.constrain((y - ymax) / (ymin - ymax), 0, 1);
-      const spread = p.lerp(40, 180, t);      // widen with height
-      return x + p.random(-spread, spread);
-    }
-
-    function collides(x, y, s) {
-      // compare with words already added to particles
-      const halfH = s * 0.55;
-      for (const pt of particles) {
-        const w = p.textWidth(pt.word);
-        const hw = w / 2, hh = pt.size * 0.55;
-        if (Math.abs(x - pt.x) < (hw + p.textWidth("M") * 0.6) &&
-            Math.abs(y - pt.y) < (halfH + hh)) return true;
-      }
-      return false;
-    }
-
-    // Vertical anchors for tiers
-    function tierStartY(t) {
-      // from bottom to top
-      const map = {
-        "80-85": IG_H - 260,
-        "86-90": IG_H - 470,
-        "91-95": IG_H - 710,
-        "96+":   IG_H - 910
-      };
-      return map[t] || (IG_H - 260);
-    }
-
-    // Draw loop
-    p.draw = function () {
+    p.draw = function(){
       drawBackground();
       drawTitle();
-      drawLegend();
+      drawAxes();
+      drawSweetSpot();
 
-      // Soft plumes (one per lane) behind words
-      lanes.forEach(t => {
-        const cat = dominantCategoryForTier(t) || "emotion";
-        drawPlume(t, cat);
-      });
+      // draw bubbles (larger first? smaller first? We'll draw larger last so they sit on top)
+      pts.slice().sort((a,b)=>a.count-b.count).forEach(d=>{
+        const cx = x2px(d.x);
+        const cy = y2px(d.y);
+        const r  = r2px(d.count);
+        const col = (PALETTE[d.continent]||PALETTE.Other)(p);
 
-      // Words
-      particles.forEach(pt => {
-        p.fill(p.red(pt.col), p.green(pt.col), p.blue(pt.col), pt.alpha);
+        // halo for annotated groups
+        if (underrated.has(d.country) || premium.has(d.country)){
+          p.noFill();
+          p.stroke(0,40);
+          p.strokeWeight(6);
+          p.circle(cx, cy, (r+8)*2);
+        }
+
         p.noStroke();
-        p.textAlign(p.CENTER, p.CENTER);
-        p.textSize(pt.size);
-        p.text(pt.word, pt.x, pt.y);
+        p.fill(p.red(col), p.green(col), p.blue(col), 200);
+        p.circle(cx, cy, r*2);
       });
 
-      // One concise annotation
-      annotate("Vocabulary becomes more emotional and textural as quality rises.", p.width * 0.46, tierStartY("91-95") + 8);
+      // labels for a few countries (adjust as you like)
+      labelCountry("Portugal");
+      labelCountry("Chile");
+      labelCountry("Argentina");
+      labelCountry("France");
+      labelCountry("United States");
 
-      drawGlass();
-      drawFooter();
+      drawLegend();
+      drawCaption();
 
-      // Hover tooltip
-      const hit = hitWord(p.mouseX, p.mouseY);
+      // tooltip
+      const hit = pick(p.mouseX, p.mouseY);
       if (hit) drawTooltip(hit);
     };
 
-    // Background and frame
-    function drawBackground() {
-      for (let y = 0; y < p.height; y++) {
-        const t = y / p.height;
-        const c = p.lerpColor(
-          p.lerpColor(COL.bgTop, COL.bgMid, t * 1.2),
-          COL.bgBot,
-          Math.max(0, t - 0.2)
-        );
-        p.stroke(c); p.line(0, y, p.width, y);
+    function drawBackground(){
+      // soft vertical gradient
+      for(let y=0;y<H;y++){
+        const t = y/H;
+        const c = p.lerpColor(p.color(252,249,246), p.color(242,232,220), t);
+        p.stroke(c); p.line(0,y,W,y);
       }
-      drawVignette();
-    }
-
-    function drawVignette() {
+      // vignette
       p.noFill();
-      for (let r = 0; r < 80; r++) {
-        const a = p.map(r, 0, 79, 0, 90);
-        p.stroke(0, a * 0.3);
-        p.rect(M.l - r, M.t - r, p.width - (M.l + M.r) + 2 * r, p.height - (M.t + M.b) + 2 * r, 24);
+      for (let r=0;r<60;r++){
+        p.stroke(0, p.map(r,0,59,0,60));
+        p.rect(M.l- r, M.t- r, W-(M.l+M.r)+2*r, H-(M.t+M.b)+2*r, 20);
       }
     }
 
-    // Wine glass
-    function drawGlass() {
+    function drawTitle(){
+      p.fill(30); p.textAlign(p.LEFT, p.TOP);
+      p.textFont("Libre Baskerville"); p.textSize(40);
+      p.text("Price Isn’t Everything", M.l, 40);
+      p.textFont("Inter"); p.fill(90); p.textSize(22);
+      p.text("Where in the world you’ll find high ratings without high prices", M.l, 40+44);
+    }
+
+    function drawAxes(){
+      p.stroke(160); p.strokeWeight(1); p.noFill();
+      // x-axis
+      p.line(M.l, H-M.b, W-M.r, H-M.b);
+      // y-axis
+      p.line(M.l, H-M.b, M.l, M.t);
+
+      p.textFont("Inter"); p.fill(70); p.noStroke(); p.textSize(16);
+      // x ticks
+      const xTicks = [0,10,20,40,80,120,160,200];
+      xTicks.forEach(v=>{
+        const x = x2px(v);
+        p.stroke(220); p.line(x, H-M.b, x, M.t);
+        p.noStroke(); p.fill(70); p.textAlign(p.CENTER, p.TOP);
+        p.text("$"+v, x, H-M.b+8);
+      });
+
+      // y ticks
+      const yTicks = [80,84,88,90,92,94,96,98,100];
+      yTicks.forEach(v=>{
+        const y = y2px(v);
+        p.stroke(230); p.line(M.l, y, W-M.r, y);
+        p.noStroke(); p.fill(70); p.textAlign(p.RIGHT, p.CENTER);
+        p.text(v, M.l-8, y);
+      });
+
+      // axis labels
+      p.fill(50); p.textSize(18);
+      p.textAlign(p.CENTER, p.TOP);
+      p.text("Average Price (USD)", (M.l+W-M.r)/2, H-M.b+40);
       p.push();
-      const cx = p.width / 2, baseY = p.height - 90;
-      p.translate(cx, baseY);
-      p.noFill(); p.stroke(140); p.strokeWeight(2);
-
-      // bowl
-      p.beginShape();
-      p.curveVertex(-110, 0); p.curveVertex(-110, 0);
-      p.curveVertex(-60, -120); p.curveVertex(-38, -190);
-      p.curveVertex(38, -190);  p.curveVertex(60, -120);
-      p.curveVertex(110, 0);    p.curveVertex(110, 0);
-      p.endShape();
-
-      // stem + rim
-      p.line(0, -190, 0, -250);
-      p.arc(0, -250, 110, 36, p.PI, 0);
-
-      // soft base shadow
-      p.fill(0, 20); p.noStroke();
-      p.rect(-80, 6, 160, 6, 6);
+      p.translate(M.l-56, (M.t+H-M.b)/2);
+      p.rotate(-p.HALF_PI);
+      p.text("Average Rating (Wine Enthusiast points)", 0, 0);
       p.pop();
     }
 
-    // Plumes
-    function drawPlume(tier, cat) {
-      const x = laneX[tier];
-      const y0 = tierStartY("80-85") + 40;   // near glass
-      const y3 = tierStartY(tier) - 260;     // top for this lane
-      const wBase = 160, wTop = 420;         // width envelope
-      const c = COL.plume[cat] || p.color(120, 30);
+    function drawSweetSpot(){
+      // highlight top-left region: points >= SWEET_POINTS and price <= SWEET_PRICE
+      const x1 = x2px(xMin), x2 = x2px(SWEET_PRICE);
+      const y1 = y2px(yMax), y2 = y2px(SWEET_POINTS);
+      p.noStroke();
+      p.fill(60, 180, 120, 30);
+      p.rect(x1, y1, x2-x1, y2-y1, 8);
 
-      p.noStroke(); p.fill(c);
-      p.beginShape();
-      // left edge
-      p.curveVertex(x, y0);
-      p.curveVertex(x - wBase / 2, y0);
-      p.curveVertex(x - wTop / 2, y3);
-      p.curveVertex(x, y3 - 80);
-      // right edge (reverse)
-      p.curveVertex(x + wTop / 2, y3);
-      p.curveVertex(x + wBase / 2, y0);
-      p.curveVertex(x, y0);
-      p.endShape(p.CLOSE);
+      // caption
+      p.fill(40); p.textSize(16); p.textAlign(p.LEFT, p.TOP);
+      p.text("Sweet spot: high rating, low price", x1+8, y1+8);
     }
 
-    function dominantCategoryForTier(tier) {
-      const group = particles.filter(pt => pt.tier === tier);
-      const byCat = {};
-      group.forEach(pt => byCat[pt.colKey] = (byCat[pt.colKey] || 0) + pt.size);
-      let best = null, bestV = -1;
-      for (const k in byCat) {
-        if (byCat[k] > bestV) { bestV = byCat[k]; best = k; }
-      }
-      return best;
+    function labelCountry(name){
+      const d = pts.find(o=>o.country===name);
+      if (!d) return;
+      const cx=x2px(d.x), cy=y2px(d.y), r=r2px(d.count);
+      p.fill(255); p.stroke(0,40);
+      const pad=6;
+      const tx=cx + (underrated.has(name)? (r+12): -(r+12));
+      const ty=cy - r - 6;
+      const label = name + " (" + d.continent + ")";
+      p.strokeWeight(2);
+      p.line(cx, cy, tx, ty+10);
+      p.noStroke(); p.fill(30); p.textFont("Inter"); p.textSize(16);
+      p.textAlign(underrated.has(name)? p.LEFT : p.RIGHT, p.BOTTOM);
+      p.text(label, tx, ty);
     }
 
-    // Title, legend, fotoer
-    function drawTitle() {
-      p.fill(COL.ink);
-      p.textAlign(p.LEFT, p.TOP);
-
-      p.textFont(titleFont); p.textSize(44);
-      p.text("The Language of Excellence", M.l, M.t);
-
-      p.textFont(uiFont); p.fill(COL.mute); p.textSize(20);
-      p.text("Words drift upward, mirroring sensory refinement.", M.l, M.t + 48);
-    }
-
-    function drawLegend() {
-      let x = p.width - M.r - 160, y = M.t + 6;
-      p.textSize(18); p.fill(COL.ink); p.text("Legend", x, y);
-      y += 6;
-      legendItems.forEach(([label, col]) => {
+    function drawLegend(){
+      const x = W - M.r + 10, y0 = M.t + 10;
+      p.textFont("Inter"); p.textSize(16); p.fill(30); p.textAlign(p.LEFT, p.TOP);
+      p.text("Continent", x, y0);
+      let y = y0 + 8;
+      Object.keys(PALETTE).forEach(key=>{
         y += 22;
-        p.fill(col); p.noStroke(); p.circle(x, y, 10);
-        p.fill(COL.mute); p.textAlign(p.LEFT, p.CENTER);
-        p.textSize(16); p.text(label, x + 14, y + 1);
+        const col = PALETTE[key](p);
+        p.fill(col); p.noStroke(); p.circle(x+8, y, 10);
+        p.fill(70); p.textAlign(p.LEFT, p.CENTER); p.textSize(14);
+        p.text(key, x+20, y);
+      });
+
+      // size legend
+      y += 28; p.fill(30); p.textSize(16); p.text("Sample size", x, y);
+      const sizes=[60,300,1000]; y+=6;
+      sizes.forEach((n,i)=>{
+        y += 26;
+        p.noStroke(); p.fill(120,120);
+        p.circle(x+10, y, r2px(n)*2);
+        p.fill(70); p.textSize(12); p.textAlign(p.LEFT, p.CENTER);
+        p.text(n+" reviews", x+28, y);
       });
     }
 
-    function drawFooter() {
-      p.fill(COL.mute); p.textAlign(p.LEFT, p.BOTTOM); p.textSize(14);
-      p.text("80–85          86–90          91–95          96+", M.l, p.height - 24);
+    function drawCaption(){
+      p.textFont("Inter"); p.fill(70); p.textSize(14);
+      p.textAlign(p.LEFT, p.BOTTOM);
+      p.text("Dataset: Wine Enthusiast (≈130k). Countries with ≥50 reviews. Price capped at $200 for legibility.", M.l, H-20);
       p.textAlign(p.RIGHT, p.BOTTOM);
-      p.text("Dataset: Wine Enthusiast (≈130k reviews). Size = normalized frequency per tier. Colors = semantic category. Includes all wine types.", p.width - M.r, p.height - 24);
+      p.text("Takeaway: You don’t need to spend $80 for a 92-point bottle—look to Portugal, Chile, Argentina.", W-M.r, H-20);
     }
 
-    // Annotation
-    function annotate(text, cx, cy) {
-      const boxW = 420, boxH = 56;
-      const x = p.constrain(cx - boxW / 2, M.l, p.width - M.r - boxW);
-      const y = p.constrain(cy, M.t + 120, p.height - 260);
-      p.noStroke(); p.fill(255, 220);
-      p.rect(x, y, boxW, boxH, 10);
-      p.fill(COL.ink); p.textAlign(p.LEFT, p.CENTER); p.textSize(16);
-      p.text(text, x + 12, y + boxH / 2, boxW - 24, boxH - 12);
-    }
-
-    function hitWord(mx, my) {
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const pt = particles[i];
-        p.textSize(pt.size);
-        const w = p.textWidth(pt.word), h = pt.size * 0.9;
-        if (mx > pt.x - w / 2 && mx < pt.x + w / 2 &&
-            my > pt.y - h / 2 && my < pt.y + h / 2) return pt;
+    function pick(mx,my){
+      // return topmost bubble under mouse
+      for (let i=pts.length-1;i>=0;i--){
+        const d=pts[i];
+        const cx=x2px(d.x), cy=y2px(d.y), r=r2px(d.count);
+        if ((mx-cx)*(mx-cx)+(my-cy)*(my-cy) <= r*r) return d;
       }
       return null;
     }
 
-    function drawTooltip(pt) {
-      const boxW = 560, boxH = 150;
-      let x = p.constrain(p.mouseX + 18, 40, p.width - boxW - 40);
-      let y = p.constrain(p.mouseY + 18, 40, p.height - boxH - 40);
-      p.fill(255); p.stroke(210); p.rect(x, y, boxW, boxH, 10);
-      p.noStroke(); p.fill(COL.ink); p.textAlign(p.LEFT, p.TOP);
-      p.textSize(22); p.text(pt.word, x + 16, y + 12);
-      p.textSize(14); p.fill(COL.mute);
-      const q = (pt.quote && pt.quote.length > 0) ? pt.quote : "No sample available.";
-      p.text(q.slice(0, 250) + (q.length > 250 ? "…" : ""), x + 16, y + 44, boxW - 32, boxH - 56);
+    function drawTooltip(d){
+      const col = (PALETTE[d.continent]||PALETTE.Other)(p);
+      const lines = [
+        d.country,
+        "Continent: " + d.continent,
+        "Avg price: $" + d.x.toFixed(2),
+        "Avg rating: " + d.y.toFixed(1) + " pts",
+        "Reviews: " + d.count
+      ];
+      const w = 280, h = 120;
+      let x = p.constrain(p.mouseX+16, M.l, W-M.r-w);
+      let y = p.constrain(p.mouseY+16, M.t, H-M.b-h);
+      p.fill(255); p.stroke(210); p.rect(x, y, w, h, 10);
+      p.noStroke(); p.fill(30); p.textFont("Inter"); p.textSize(18);
+      p.textAlign(p.LEFT, p.TOP);
+      p.text(lines[0], x+12, y+10);
+      p.textSize(13); p.fill(80);
+      p.text(lines.slice(1).join("\n"), x+12, y+38);
+      p.fill(col); p.noStroke(); p.circle(x+w-18, y+18, 10);
     }
   }
-
-
   window.registerSketch('sk5', factory);
 })();

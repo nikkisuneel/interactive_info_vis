@@ -1,0 +1,186 @@
+{
+  "rows": [
+    {
+      "country": "US",
+      "continent": "Other",
+      "avg_price": 36.5734635584631,
+      "avg_points": 88.56638717405326,
+      "count": 54265
+    },
+    {
+      "country": "France",
+      "continent": "Europe",
+      "avg_price": 41.139120162016205,
+      "avg_points": 88.73486723672367,
+      "count": 17776
+    },
+    {
+      "country": "Italy",
+      "continent": "Europe",
+      "avg_price": 39.663769658271256,
+      "avg_points": 88.61818611800875,
+      "count": 16914
+    },
+    {
+      "country": "Spain",
+      "continent": "Europe",
+      "avg_price": 28.215274608245853,
+      "avg_points": 87.29073482428115,
+      "count": 6573
+    },
+    {
+      "country": "Portugal",
+      "continent": "Europe",
+      "avg_price": 26.21825641025641,
+      "avg_points": 88.31671794871795,
+      "count": 4875
+    },
+    {
+      "country": "Chile",
+      "continent": "South America",
+      "avg_price": 20.786458333333332,
+      "avg_points": 86.49547101449275,
+      "count": 4416
+    },
+    {
+      "country": "Argentina",
+      "continent": "South America",
+      "avg_price": 24.510117145899894,
+      "avg_points": 86.71033013844516,
+      "count": 3756
+    },
+    {
+      "country": "Austria",
+      "continent": "Europe",
+      "avg_price": 30.76277241872097,
+      "avg_points": 90.19078242229368,
+      "count": 2799
+    },
+    {
+      "country": "Australia",
+      "continent": "Oceania",
+      "avg_price": 35.43766346992153,
+      "avg_points": 88.59546643417612,
+      "count": 2294
+    },
+    {
+      "country": "Germany",
+      "continent": "Europe",
+      "avg_price": 42.25754716981132,
+      "avg_points": 89.83632075471698,
+      "count": 2120
+    },
+    {
+      "country": "New Zealand",
+      "continent": "Oceania",
+      "avg_price": 26.93178519593614,
+      "avg_points": 88.30841799709724,
+      "count": 1378
+    },
+    {
+      "country": "South Africa",
+      "continent": "Africa",
+      "avg_price": 24.668986852281517,
+      "avg_points": 87.83139984532096,
+      "count": 1293
+    },
+    {
+      "country": "Israel",
+      "continent": "Asia",
+      "avg_price": 31.768916155419223,
+      "avg_points": 88.49693251533742,
+      "count": 489
+    },
+    {
+      "country": "Greece",
+      "continent": "Europe",
+      "avg_price": 22.364425162689805,
+      "avg_points": 87.2885032537961,
+      "count": 461
+    },
+    {
+      "country": "Canada",
+      "continent": "North America",
+      "avg_price": 35.71259842519685,
+      "avg_points": 89.37795275590551,
+      "count": 254
+    },
+    {
+      "country": "Hungary",
+      "continent": "Europe",
+      "avg_price": 40.648275862068964,
+      "avg_points": 89.1655172413793,
+      "count": 145
+    },
+    {
+      "country": "Bulgaria",
+      "continent": "Other",
+      "avg_price": 14.645390070921986,
+      "avg_points": 87.93617021276596,
+      "count": 141
+    },
+    {
+      "country": "Romania",
+      "continent": "Other",
+      "avg_price": 15.241666666666667,
+      "avg_points": 86.4,
+      "count": 120
+    },
+    {
+      "country": "Uruguay",
+      "continent": "South America",
+      "avg_price": 26.40366972477064,
+      "avg_points": 86.75229357798165,
+      "count": 109
+    },
+    {
+      "country": "Turkey",
+      "continent": "Asia",
+      "avg_price": 24.633333333333333,
+      "avg_points": 88.08888888888889,
+      "count": 90
+    },
+    {
+      "country": "Georgia",
+      "continent": "Asia",
+      "avg_price": 19.321428571428573,
+      "avg_points": 87.67857142857143,
+      "count": 84
+    },
+    {
+      "country": "Slovenia",
+      "continent": "Other",
+      "avg_price": 24.8125,
+      "avg_points": 88.0125,
+      "count": 80
+    },
+    {
+      "country": "Croatia",
+      "continent": "Other",
+      "avg_price": 25.450704225352112,
+      "avg_points": 87.35211267605634,
+      "count": 71
+    },
+    {
+      "country": "Mexico",
+      "continent": "North America",
+      "avg_price": 26.785714285714285,
+      "avg_points": 85.25714285714285,
+      "count": 70
+    },
+    {
+      "country": "England",
+      "continent": "Other",
+      "avg_price": 51.68115942028985,
+      "avg_points": 91.55072463768116,
+      "count": 69
+    },
+    {
+      "country": "Moldova",
+      "continent": "Other",
+      "avg_price": 16.74576271186441,
+      "avg_points": 87.20338983050847,
+      "count": 59
+    }
+  ]
+}
